@@ -484,7 +484,7 @@ export function Hero() {
               </Button>
               <motion.div initial={reduceMotion ? false : { opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 1.02, ease: EASE }}>
                 <Button asChild size="lg" variant="outline" className="gap-2 rounded-full border-white/20 bg-black/10 !px-6 hover:bg-white/5">
-                  <a href="/resume.pdf" download><span>{copy.cta2}</span><Download aria-hidden="true" data-icon="inline-end" className="size-4" /></a>
+                  <a href={`${import.meta.env.BASE_URL}resume.pdf`} download><span>{copy.cta2}</span><Download aria-hidden="true" data-icon="inline-end" className="size-4" /></a>
                 </Button>
               </motion.div>
             </motion.div>
@@ -496,7 +496,7 @@ export function Hero() {
               transition={{ duration: 1, delay: 0.38, ease: EASE }}
               className="hero-mobile-portrait pointer-events-none absolute -bottom-3 right-[-28vw] z-10 w-[clamp(18rem,94vw,25rem)] lg:hidden"
             >
-              <img src="/images/ekaterina-hero-shoulders.png" alt="" className="h-auto w-full object-contain" />
+              <img src={`${import.meta.env.BASE_URL}images/ekaterina-hero-shoulders.png`} alt="" className="h-auto w-full object-contain" />
               <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(circle_at_65%_38%,rgba(255,111,54,0.1),transparent_44%)] mix-blend-screen" />
             </motion.div>
             <div
@@ -517,7 +517,7 @@ export function Hero() {
               transition={{ duration: 1, delay: 0.38, ease: EASE, x: { type: 'spring', stiffness: 55, damping: 18 }, y: { type: 'spring', stiffness: 55, damping: 18 } }}
               className="hero-desktop-portrait pointer-events-none absolute -top-20 right-0 z-10 hidden w-[min(49vw,700px)] lg:block"
             >
-              <img src="/images/ekaterina-hero-shoulders.png" alt="" className="h-auto w-full object-contain" />
+              <img src={`${import.meta.env.BASE_URL}images/ekaterina-hero-shoulders.png`} alt="" className="h-auto w-full object-contain" />
               <div
                 aria-hidden="true"
                 className="absolute inset-0 bg-[radial-gradient(circle_at_72%_34%,rgba(255,111,54,0.08),transparent_42%)] mix-blend-screen"

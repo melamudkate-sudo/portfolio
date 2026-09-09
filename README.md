@@ -20,6 +20,19 @@ npm run dev
 | `npm run build` | Проверка TypeScript и production-сборка |
 | `npm run preview` | Просмотр готовой сборки |
 
+## GitHub Pages
+
+Сайт: https://melamudkate-sudo.github.io/portfolio/
+
+В Settings → Pages → Build and deployment выберите Source: **GitHub Actions**.
+Workflow `.github/workflows/deploy.yml` при каждом push в `main` проверяет TypeScript,
+собирает приложение и публикует только содержимое `dist/`.
+Публикация исходников из корня ветки не подходит для Vite.
+
+Базовый путь `/portfolio/` задан в `vite.config.ts`. Для ресурсов из `public/`
+в React используйте `import.meta.env.BASE_URL`; пути в CSS и HTML обрабатывает Vite.
+Для кнопки скачивания резюме нужно добавить файл `public/resume.pdf`.
+
 ## Структура
 
 - `src/` — React-компоненты, стили, хуки и утилиты.
