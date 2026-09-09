@@ -1,10 +1,41 @@
 import { Footer } from '@/components/layout/footer'
 import { Navbar } from '@/components/layout/navbar'
 import { About } from '@/components/sections/about'
+import { Cases } from '@/components/sections/cases'
+import { Education } from '@/components/sections/education'
+import { Experience } from '@/components/sections/experience'
 import { Hero } from '@/components/sections/hero'
-import { Projects } from '@/components/sections/projects'
+import { HowIWork } from '@/components/sections/how-i-work'
+import { Skills } from '@/components/sections/skills'
+import { useEffect } from 'react'
 
 function App() {
+  useEffect(() => {
+    const previousRestoration = window.history.scrollRestoration
+    window.history.scrollRestoration = 'manual'
+
+    const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined
+    const isReload = navigation?.type === 'reload'
+
+    // A refreshed portfolio should always reopen at a complete screen,
+    // rather than Safari restoring a few hundred pixels into Hero. Direct
+    // links to a section still work on a first visit; only reloads reset.
+    if (isReload || !window.location.hash) {
+      if (isReload && window.location.hash) {
+        window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}`)
+      }
+      const frame = window.requestAnimationFrame(() => window.scrollTo(0, 0))
+      return () => {
+        window.cancelAnimationFrame(frame)
+        window.history.scrollRestoration = previousRestoration
+      }
+    }
+
+    return () => {
+      window.history.scrollRestoration = previousRestoration
+    }
+  }, [])
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Navbar />
@@ -20,10 +51,14 @@ function App() {
         as a standing guard against the same class of bug recurring with
         any future decorative addition.
       */}
-      <main className="relative z-10">
+      <main className="relative z-10 overflow-x-clip">
         <Hero />
         <About />
-        <Projects />
+        <HowIWork />
+        <Cases />
+        <Skills />
+        <Experience />
+        <Education />
       </main>
       <Footer />
     </div>

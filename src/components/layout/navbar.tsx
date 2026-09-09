@@ -15,10 +15,11 @@ const NAME = {
 
 const LINKS = [
   { href: '#about', num: '01', ru: 'Обо мне', en: 'About' },
-  { href: '#work', num: '02', ru: 'Кейсы', en: 'Cases' },
-  { href: '#skills', num: '03', ru: 'Навыки', en: 'Skills' },
-  { href: '#experience', num: '04', ru: 'Опыт', en: 'Experience' },
-  { href: '#contact', num: '05', ru: 'Контакты', en: 'Contacts' },
+  { href: '#approach', num: '02', ru: 'Как работаю', en: 'Approach' },
+  { href: '#work', num: '03', ru: 'Кейсы', en: 'Cases' },
+  { href: '#skills', num: '04', ru: 'Навыки', en: 'Skills' },
+  { href: '#experience', num: '05', ru: 'Опыт', en: 'Experience' },
+  { href: '#contact', num: '06', ru: 'Контакты', en: 'Contacts' },
 ] as const
 
 const EASE = [0.16, 1, 0.3, 1] as const
@@ -70,7 +71,7 @@ export function Navbar() {
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-50 border-b border-border/60 bg-background/70 backdrop-blur-md">
+      <header className="site-header fixed inset-x-0 top-0 z-50 border-b border-border/60 bg-background/70 backdrop-blur-md">
         <div className={cn('flex h-16 items-center justify-between', CONTAINER_CLASS)}>
           <a
             href="#top"
@@ -79,13 +80,9 @@ export function Navbar() {
             <span aria-hidden="true" className="size-1.5 rotate-45 bg-primary" />
             <LanguageTransition id={`${language}-${switchId}`}>
               {/*
-                Not <FadeIn>: it triggers via whileInView with a -80px
-                viewport margin, tuned for full-height scroll sections.
-                That margin excludes the header's own 64px band entirely,
-                so on remount (language switch) it never intersects and
-                stays stuck at opacity 0 — confirmed by inspecting computed
-                styles, not just visually. Reusing menuItemVariants here
-                animates on mount directly, no viewport check involved.
+                Not <FadeIn>: the header is always visible, so it should
+                animate on mount directly rather than wait for a viewport
+                observer intended for scroll sections.
               */}
               <motion.span
                 initial="hidden"
@@ -104,7 +101,7 @@ export function Navbar() {
               setUnderline(null)
               setHoveredHref(null)
             }}
-            className="relative hidden text-sm text-muted-foreground sm:block"
+            className="relative hidden text-sm text-muted-foreground lg:block"
           >
             <LanguageTransition id={`${language}-${switchId}`}>
               {/*
@@ -118,7 +115,7 @@ export function Navbar() {
                 initial="hidden"
                 animate="visible"
                 variants={menuVariants}
-                className="grid grid-cols-[repeat(5,minmax(104px,1fr))] gap-x-2"
+                className="flex items-center gap-x-7"
               >
                 {LINKS.map((link) => (
                   <motion.a
@@ -141,7 +138,7 @@ export function Navbar() {
                       since the numeral's width isn't symmetric. That's the
                       accepted trade-off, not a bug.
                     */}
-                    <span className="mx-auto inline-flex items-center gap-1.5">
+                    <span className="inline-flex items-center gap-1.5 whitespace-nowrap">
                       <span
                         className={cn(
                           'text-[10px] tabular-nums transition-colors',
@@ -183,7 +180,7 @@ export function Navbar() {
               aria-label={mobileOpen ? 'Закрыть меню' : 'Открыть меню'}
               aria-expanded={mobileOpen}
               className={cn(
-                'relative flex size-9 items-center justify-center rounded-lg text-foreground transition-colors hover:bg-muted sm:hidden',
+                'relative flex size-9 items-center justify-center rounded-lg text-foreground transition-colors hover:bg-muted lg:hidden',
                 FOCUS_RING
               )}
             >
@@ -220,7 +217,7 @@ export function Navbar() {
             variants={menuVariants}
             transition={{ duration: 0.3 }}
             onClick={() => setMobileOpen(false)}
-            className="fixed inset-0 z-40 flex flex-col items-center justify-center gap-2 bg-background sm:hidden"
+            className="fixed inset-0 z-40 flex flex-col items-center justify-center gap-2 bg-background lg:hidden"
           >
             {LINKS.map((link) => (
               <motion.a

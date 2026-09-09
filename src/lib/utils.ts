@@ -13,3 +13,6 @@ export function cn(...inputs: ClassValue[]) {
  * viewport width even when the numbers look like they should match.
  */
 export const CONTAINER_CLASS = "mx-auto w-full max-w-5xl px-6"
+
+/** Shared wide grid for all section headings and their content. */
+export const SECTION_CONTAINER_CLASS = "mx-auto w-full max-w-7xl px-6"

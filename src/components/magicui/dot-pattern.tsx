@@ -2,6 +2,7 @@ import React, { useEffect, useId, useRef, useState } from "react"
 import {
   motion,
   useMotionValue,
+  useReducedMotion,
   useSpring,
   useTransform,
   type MotionValue,
@@ -69,13 +70,49 @@ interface DotPatternProps extends React.SVGProps<SVGSVGElement> {
  * @notes
  * - The component is client-side only ("use client")
  * - Automatically responds to container size changes
- * - When glow is enabled, dots will animate with random delays and durations (looping — independent of the cursor)
+ * - When glow is enabled, dots are rendered as one SVG pattern with one
+ *   shared, gentle pulse. This prevents long sections from creating
+ *   thousands of permanent per-dot animations.
  * - Dots additionally enlarge and shift to the theme's accent color near the pointer, driven purely by cursor position (no loop)
  * - Uses Motion for animations
  * - Dots color can be controlled via the text color utility classes
  */
 
 const PROXIMITY_RADIUS = 200
+
+function PulsingDotPattern({
+  width = 16,
+  height = 16,
+  x = 0,
+  y = 0,
+  cx = 1,
+  cy = 1,
+  cr = 1,
+  className,
+  glow: _glow,
+  mouseX: _mouseX,
+  mouseY: _mouseY,
+  ...props
+}: DotPatternProps) {
+  const id = useId()
+  const reduceMotion = useReducedMotion()
+
+  return (
+    <svg
+      aria-hidden="true"
+      className={cn('pointer-events-none absolute inset-0 h-full w-full text-neutral-400/80', className)}
+      {...props}
+      style={{ ...props.style, animation: reduceMotion ? 'none' : 'dot-pattern-pulse 8s ease-in-out infinite' }}
+    >
+      <defs>
+        <pattern id={`${id}-dots`} width={width} height={height} x={x} y={y} patternUnits="userSpaceOnUse">
+          <circle cx={cx} cy={cy} r={cr} fill="currentColor" />
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill={`url(#${id}-dots)`} />
+    </svg>
+  )
+}
 
 function ReactiveDot({
   cx,
@@ -119,7 +156,7 @@ function ReactiveDot({
   )
 }
 
-export function DotPattern({
+function InteractiveDotPattern({
   width = 16,
   height = 16,
   x = 0,
@@ -128,7 +165,7 @@ export function DotPattern({
   cy = 1,
   cr = 1,
   className,
-  glow = false,
+  glow: _glow,
   mouseX: externalMouseX,
   mouseY: externalMouseY,
   ...props
@@ -209,7 +246,7 @@ export function DotPattern({
       onPointerLeave={isControlled ? undefined : handlePointerLeave}
       className={cn(
         "absolute inset-0 h-full w-full text-neutral-400/80",
-        glow || isControlled ? "pointer-events-none" : "pointer-events-auto",
+        isControlled ? "pointer-events-none" : "pointer-events-auto",
         className
       )}
       {...props}
@@ -220,38 +257,20 @@ export function DotPattern({
           <stop offset="100%" stopColor="currentColor" stopOpacity="0" />
         </radialGradient>
       </defs>
-      {dots.map((dot) =>
-        glow ? (
-          <motion.circle
-            key={`${dot.x}-${dot.y}`}
-            cx={dot.x}
-            cy={dot.y}
-            r={cr}
-            fill={`url(#${id}-gradient)`}
-            initial={{ opacity: 0.4, scale: 1 }}
-            animate={{
-              opacity: [0.4, 1, 0.4],
-              scale: [1, 1.5, 1],
-            }}
-            transition={{
-              duration: dot.duration,
-              repeat: Infinity,
-              repeatType: "reverse",
-              delay: dot.delay,
-              ease: "easeInOut",
-            }}
-          />
-        ) : (
-          <ReactiveDot
-            key={`${dot.x}-${dot.y}`}
-            cx={dot.x}
-            cy={dot.y}
-            r={cr}
-            mouseX={mouseX}
-            mouseY={mouseY}
-          />
-        )
-      )}
+      {dots.map((dot) => (
+        <ReactiveDot
+          key={`${dot.x}-${dot.y}`}
+          cx={dot.x}
+          cy={dot.y}
+          r={cr}
+          mouseX={mouseX}
+          mouseY={mouseY}
+        />
+      ))}
     </svg>
   )
+}
+
+export function DotPattern(props: DotPatternProps) {
+  return props.glow ? <PulsingDotPattern {...props} /> : <InteractiveDotPattern {...props} />
 }
