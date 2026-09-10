@@ -216,7 +216,7 @@ export function CaseOne({ item, language }: { item: Case; language: 'ru' | 'en' 
           <p className="mt-3 text-xs text-muted-foreground">{language === 'ru' ? 'Моя роль · анализ ресурсов, проектирование модели, адаптация' : 'My role · resource analysis, model design, onboarding'}</p>
           <motion.p {...reveal(0.24)} className="mt-3 max-w-2xl text-pretty text-base leading-relaxed text-primary">{item.lead[language]}</motion.p>
 
-          <div className="mt-6 grid gap-5 lg:grid-cols-[minmax(0,1.36fr)_minmax(13rem,1.14fr)] lg:items-start">
+          <div className="case-one-body mt-6 grid gap-5 lg:grid-cols-[minmax(0,1.36fr)_minmax(13rem,1.14fr)] lg:items-start">
             <div>
               <motion.div {...reveal(0.38)} className="group relative overflow-hidden rounded-2xl border border-primary/30 bg-card/95 p-3 transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-[0_18px_36px_-28px_rgba(235,116,67,0.4)]">
                 <div aria-hidden="true" className="pointer-events-none absolute -left-12 top-1/2 size-28 -translate-y-1/2 rounded-full bg-primary/[0.08] blur-2xl" />

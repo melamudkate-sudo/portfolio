@@ -1,0 +1,20 @@
+import { delay, translate } from './scene-utils'
+import { useState, type CSSProperties } from 'react'
+import { ArrowDown, ArrowRight, Blocks, CircleCheck, GitBranch, Layers3, MousePointer2, Route, Target, UsersRound } from 'lucide-react'
+import { IconBadge, Method, Outcome, Reconstruction, SceneHeader, type SceneProps } from './scene-primitives'
+
+export function ProductScene({ item, language }: SceneProps) {
+  const t = translate(language)
+  const [selected, setSelected] = useState(0)
+  const explanations = [t('Сценарий связывает бизнес-цель с реальной работой пользователя.', 'The scenario connects the business goal to how people actually work.'), t('Статусы, сроки, просрочки и риски связываются с этапами и управленческой отчётностью.', 'Statuses, deadlines, overdue work, and risks connect to stages and management reporting.'), t('Роли определяют ответственных, точки передачи и переходы между этапами.', 'Roles define owners, handoffs, and transitions between stages.')]
+  return <article className="case-scene product-scene">
+    <SceneHeader item={item} language={language} role={t('анализ MVP и прототипирование · совместно с аналитиками и IT', 'MVP analysis and prototyping · alongside analysts and IT')} />
+    <div className="product-transformation">
+      <div className="product-backlog"><p className="case-eyebrow">{t('Точка пересмотра', 'The point of reassessment')}</p><h4>{t('Функции без общей логики', 'Features without a shared logic')}</h4><div className="product-fragments" aria-hidden="true">{[Blocks, Layers3, MousePointer2, GitBranch].map((Icon,i)=><div key={i} style={{'--fragment-rotation': `${[-7,5,-3,7][i]}deg`} as CSSProperties}><Icon size={19}/><span>{t('Функция', 'Feature')} 0{i+1}</span></div>)}</div><p>{item.context[language]}</p></div>
+      <div className="product-axis"><span className="product-connector" aria-hidden="true" /><div className="product-goal scene-enter" style={delay(.35)}><IconBadge icon={Target}/><div><span className="case-eyebrow">{t('Опорная точка', 'The anchor')}</span><h4>{t('Бизнес-задача', 'Business problem')}</h4></div></div><ArrowDown aria-hidden="true" className="product-down"/><div className="product-logic scene-enter" style={delay(.65)}>{[[Route,t('Сценарий','Scenario')],[Layers3,t('Этапы','Stages')],[UsersRound,t('Роли','Roles')]].map(([Icon,label],i)=>{const I=Icon as typeof Route;return <button type="button" key={String(label)} aria-pressed={selected===i} onClick={()=>setSelected(i)} aria-controls="prototype-explanation"><I size={22} aria-hidden="true"/><span>{String(label)}</span></button>})}</div><div className="product-handoff scene-enter" style={delay(.8)}><GitBranch size={21} aria-hidden="true"/><span>{t('Зависимости, передачи и согласования', 'Dependencies, handoffs, and approvals')}</span></div></div>
+      <div className="product-prototype scene-enter" style={delay(1)}><div className="prototype-chrome"><span/><span/><span/><p>{t('Схема прототипа','Prototype schematic')}</p></div><div className="prototype-body"><div className="prototype-sidebar" aria-hidden="true"><i/><i/><i/></div><div className="prototype-content"><span className="case-eyebrow">{t('Операционная логика', 'Operating logic')}</span><div className="prototype-stages"><span>{t('Вход','Input')}</span><ArrowRight size={16}/><span>{t('Результат','Output')}</span></div><div className="prototype-check"><CircleCheck size={19}/>{t('Контрольная точка','Checkpoint')}</div><div className="prototype-report"><span>{t('Статусы · сроки · просрочки', 'Status · deadlines · overdue work')}</span><span>{t('Риски → управленческая отчётность', 'Risks → management reporting')}</span></div></div></div><div className="prototype-caption"><MousePointer2 size={20}/><p id="prototype-explanation" aria-live="polite">{explanations[selected]}</p></div></div>
+    </div>
+    <Outcome label={t('Принято в дальнейшую работу', 'Taken forward')}>{item.result[language]}</Outcome>
+    <Method item={item} language={language} icons={[Blocks, Route, MousePointer2]}/><Reconstruction language={language}/>
+  </article>
+}

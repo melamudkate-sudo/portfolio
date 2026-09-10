@@ -1,5 +1,5 @@
 export type Copy = { ru: string; en: string }
-type Visual = 'model' | 'scenario' | 'queue' | 'product' | 'kpi' | 'network'
+type Visual = 'model' | 'scenario' | 'product' | 'kpi' | 'markets' | 'tender'
 
 export type Case = {
   number: string
@@ -10,7 +10,6 @@ export type Case = {
   context: Copy
   actions: Copy[]
   result: Copy
-  metric?: Copy
   outcomes?: Array<{
     value: Copy
     label: Copy
@@ -37,76 +36,72 @@ export const CASES: Case[] = [
     result: { ru: 'Появился понятный план расширения команды, а также масштабируемая система передачи знаний.', en: 'Created a clear plan for team expansion and a scalable system for knowledge transfer.' },
   },
   {
-    number: '02',
-    type: 'scenario',
-    category: { ru: 'Операционная модель', en: 'Operating model' },
-    title: { ru: 'Оптимизация модели видеопроизводства', en: 'Optimising a video-production model' },
-    lead: { ru: 'Сравнила сценарии производства и обосновала более управляемую модель.', en: 'Compared production scenarios and justified a more controllable model.' },
-    context: { ru: 'Плановый рост объёма материалов усиливал зависимость от внешних исполнителей, расходов и длительных циклов правок.', en: 'Planned volume growth increased dependence on external suppliers, costs, and long revision cycles.' },
+    number: '02', type: 'scenario',
+    category: { ru: 'Бизнес-моделирование и запуск', en: 'Business modelling and launch planning' },
+    title: { ru: 'In-house production: от экономики до запуска', en: 'In-house production: from economics to a launch model' },
+    lead: { ru: 'Разработала модель внутреннего производства: экономика, команда, ресурсы и площадка.', en: 'Developed an in-house production model spanning economics, team, resources, and premises.' },
+    context: { ru: 'Рост производства требовал сопоставить внешний пул затрат с моделью собственного запуска.', en: 'Production growth required comparing the external cost pool with an in-house launch model.' },
     actions: [
-      { ru: 'Разработала несколько сценариев: подряд, частичное перераспределение и внутреннее производство.', en: 'Built several scenarios: contractors, partial redistribution, and in-house production.' },
-      { ru: 'Рассчитала затраты, производственную мощность, риски и качество каждого сценария.', en: 'Modelled cost, capacity, risk, and quality for each scenario.' },
-      { ru: 'Подготовила экономическое обоснование и рекомендацию для руководства.', en: 'Prepared the business case and recommendation for leadership.' },
+      { ru: 'Проанализировала внешний пул затрат и сравнила варианты производства.', en: 'Analysed the external cost pool and compared production options.' },
+      { ru: 'Разработала ресурсную модель, состав команды и требования к инфраструктуре.', en: 'Developed the resource model, team composition, and infrastructure requirements.' },
+      { ru: 'Проработала требования к площадке и 7 вариантов помещений.', en: 'Worked through site requirements and seven premises options.' },
     ],
-    metric: { ru: 'Потенциальная экономия — около 45% относительно базового сценария.', en: 'Potential savings — around 45% relative to the baseline scenario.' },
-    result: { ru: 'Новая модель перешла к подготовке внутренней инфраструктуры.', en: 'The new model moved into internal-infrastructure preparation.' },
+    result: { ru: 'Подготовлена модель запуска; руководство перешло к проработке инфраструктуры.', en: 'A launch model was prepared; leadership moved on to developing the infrastructure.' },
   },
   {
     number: '03',
-    type: 'queue',
-    category: { ru: 'Автоматизация', en: 'Automation' },
-    title: { ru: 'Self-service доступ к ограниченному ресурсу', en: 'Self-service access to a constrained resource' },
-    lead: { ru: 'Превратила ручную координацию в понятный сценарий без постоянного посредника.', en: 'Turned manual coordination into a clear flow without a constant intermediary.' },
-    context: { ru: 'Сотрудники вручную уточняли доступность общего сервиса, пересекались по времени и тратили часы на коммуникацию.', en: 'Employees manually checked a shared service’s availability, collided in time, and spent hours coordinating.' },
-    actions: [
-      { ru: 'Разобрала пользовательский сценарий и причины конфликтов доступа.', en: 'Analysed the user flow and the causes of access conflicts.' },
-      { ru: 'Спроектировала очередь: статусы, уведомления, освобождение доступа и исключения.', en: 'Designed a queue: statuses, notifications, release rules, and exceptions.' },
-      { ru: 'Настроила автоматизацию, права, инструкции и сопровождение после запуска.', en: 'Configured automation, permissions, guidance, and post-launch support.' },
-    ],
-    metric: { ru: 'Количество конфликтов и повторных уточнений сократилось вдвое.', en: 'Conflicts and repeat clarification requests were cut in half.' },
-    result: { ru: 'Инструмент экономит команде несколько рабочих часов еженедельно.', en: 'The tool saves the team several work hours every week.' },
-  },
-  {
-    number: '04',
     type: 'product',
     category: { ru: 'Продуктовое мышление', en: 'Product thinking' },
-    title: { ru: 'Перепроектирование внутренней системы управления процессом', en: 'Redesigning an internal process-management system' },
-    lead: { ru: 'Вернула внутренний продукт к исходной бизнес-задаче.', en: 'Brought an internal product back to its original business goal.' },
+    title: { ru: 'Проектирование системы управления производством', en: 'Designing an internal production-management system' },
+    lead: { ru: 'Связала бизнес-задачу, сценарии пользователей и операционную логику в интерактивном прототипе.', en: 'Connected the business problem, user scenarios, and operating logic in an interactive prototype.' },
     context: { ru: 'Проработка MVP смещалась к набору отдельных функций и рисковала потерять ценность для реального сценария работы.', en: 'MVP work was shifting toward a feature set and risking loss of value for the real work scenario.' },
     actions: [
       { ru: 'Проанализировала MVP, роли и пользовательские сценарии.', en: 'Analysed the MVP, roles, and user scenarios.' },
-      { ru: 'Сфокусировала концепцию на этапах, ответственности, рисках и передаче результата.', en: 'Refocused the concept on stages, ownership, risks, and handoffs.' },
+      { ru: 'Описала этапы, ответственных, передачи, статусы, сроки и риски.', en: 'Defined stages, owners, handoffs, statuses, deadlines, and risks.' },
       { ru: 'Создала интерактивный прототип и представила обновлённую логику команде.', en: 'Created an interactive prototype and presented the updated logic to the team.' },
     ],
-    result: { ru: 'Часть логики вошла в дальнейший план реализации.', en: 'Part of the proposed logic entered the further implementation plan.' },
+    result: { ru: 'Значительную часть логики аналитики и IT включили в дальнейший план реализации.', en: 'Analysts and IT included a substantial part of the logic in the next implementation plan.' },
   },
+
   {
-    number: '05',
+    number: '04',
     type: 'kpi',
     category: { ru: 'Аналитика и мотивация', en: 'Analytics and motivation' },
-    title: { ru: 'KPI-системы для функциональных блоков', en: 'KPI systems for functional units' },
-    lead: { ru: 'Сделала оценку работы измеримой и более справедливой.', en: 'Made performance assessment measurable and fairer.' },
+    title: { ru: 'KPI, которыми сотрудник может управлять', en: 'KPIs employees can actually influence' },
+    lead: { ru: 'Отделила управляемый результат от внешних зависимостей — и построила систему оценки.', en: 'Separated controllable outcomes from external dependencies to design a fairer assessment system.' },
     context: { ru: 'Исходные показатели были фрагментарными, плохо измеримыми и не отражали реальную работу сотрудников.', en: 'Initial metrics were fragmented, difficult to measure, and did not reflect employees’ actual work.' },
     actions: [
       { ru: 'Провела интервью с сотрудниками, руководителями и владельцами процессов.', en: 'Interviewed employees, leaders, and process owners.' },
       { ru: 'Отделила показатели под контролем сотрудника от внешних факторов.', en: 'Separated employee-controlled metrics from external factors.' },
-      { ru: 'Создала расчётные модели, сводки и основу для автоматизации.', en: 'Created calculation models, summaries, and a basis for automation.' },
+      { ru: 'Проработала расчёты, ограничения переменной части, источники данных и автоматизацию.', en: 'Developed calculations, variable-pay constraints, data sources, and automation.' },
     ],
     result: { ru: 'Для двух блоков появились полноценные KPI-системы, связанные с бизнес-результатами.', en: 'Two units received full KPI systems connected to business results.' },
   },
+
   {
-    number: '06',
-    type: 'network',
-    category: { ru: 'Управление подрядчиками', en: 'Contractor management' },
-    title: { ru: 'Управление внешним производственным контуром', en: 'Managing an external production network' },
-    lead: { ru: 'Собрала управляемый контур из нескольких внешних исполнителей.', en: 'Built a manageable network of external specialists.' },
-    context: { ru: 'Параллельно требовалось координировать до восьми специалистов и подрядчиков — от выбора исполнителя до передачи результата.', en: 'Up to eight specialists and contractors needed coordination in parallel — from selection to handoff.' },
+    number: '05', type: 'markets',
+    category: { ru: 'Кросс-функциональный запуск', en: 'Cross-functional rollout' },
+    title: { ru: 'Подготовка линейки к зарубежным рынкам', en: 'Preparing a product line for international markets' },
+    lead: { ru: 'Синхронизировала подготовку моделей, материалов и локализации между пятью функциями.', en: 'Coordinated model preparation, materials, and localisation across five functions.' },
+    context: { ru: 'Для нескольких SKU нужно было связать требования к материалам, локализацию и зависимости в общую картину готовности.', en: 'Multiple SKUs required a shared view of material requirements, localisation, dependencies, and readiness.' },
     actions: [
-      { ru: 'Формировала требования, сравнивала условия и организовывала выбор исполнителей.', en: 'Formed requirements, compared terms, and organised supplier selection.' },
-      { ru: 'Согласовывала ТЗ, сроки, стоимость и контрольные точки.', en: 'Aligned briefs, timelines, cost, and checkpoints.' },
-      { ru: 'Разрешала разногласия между внутренними заказчиками и исполнителями.', en: 'Resolved friction between internal stakeholders and suppliers.' },
+      { ru: 'Синхронизировала product, operations, production, design и content.', en: 'Aligned product, operations, production, design, and content.' },
+      { ru: 'Связала требования к материалам и локализацию с подготовкой нескольких SKU.', en: 'Connected material requirements and localisation to preparation across multiple SKUs.' },
+      { ru: 'Координировала зависимости и контролировала готовность линейки.', en: 'Coordinated dependencies and tracked the product line’s readiness.' },
     ],
-    result: { ru: 'Стали прозрачнее сроки, статусы, качество и нагрузка внешнего контура.', en: 'Timelines, status, quality, and capacity became more transparent.' },
+    result: { ru: 'Около 10 моделей в подготовке к зарубежным рынкам — с контролем материалов, локализации и зависимостей.', en: 'Around 10 models in preparation for international markets, with materials, localisation, and dependencies tracked.' },
+  },
+  {
+    number: '06', type: 'tender',
+    category: { ru: 'Коммерческий отбор', en: 'Commercial selection' },
+    title: { ru: 'Тендер: от 20 компаний до обоснованного выбора', en: 'Tender: from 20 companies to an informed choice' },
+    lead: { ru: 'Привела предложения и тестовые работы к единой основе для сравнения.', en: 'Brought proposals and test projects onto a consistent basis for comparison.' },
+    context: { ru: 'Выбор требовал сопоставимых вводных, коммерческих предложений и результатов тестовых работ.', en: 'The selection required comparable briefs, commercial proposals, and test-project results.' },
+    actions: [
+      { ru: 'Сформировала пул, подготовила единые вводные и собрала КП.', en: 'Built the company pool, prepared a shared brief, and collected proposals.' },
+      { ru: 'Координировала коммуникацию, участвовала в переговорах и организовывала тесты.', en: 'Coordinated communications, participated in negotiations, and organised test projects.' },
+      { ru: 'Структурировала результаты и подготовила сравнительные материалы для выбора.', en: 'Structured the results and prepared comparison materials for the selection.' },
+    ],
+    result: { ru: 'Предложения, переговоры и тестовые работы собраны в основу для обоснованного выбора.', en: 'Proposals, negotiations, and test-project results formed a basis for an informed choice.' },
   },
 ]
-
