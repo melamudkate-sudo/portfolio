@@ -27,22 +27,42 @@ export function useScrollReveal<T extends Element>(): [RefObject<T | null>, bool
     const element = ref.current
     if (!element || isRevealed) return
 
+    const reveal = () => setIsRevealed(true)
+    const revealIfVisible = () => {
+      const { top, bottom } = element.getBoundingClientRect()
+      if (bottom > 0 && top < window.innerHeight) reveal()
+    }
+
+    // A direct anchor navigation can complete before the observer starts
+    // watching. Check the current viewport immediately so the initial
+    // hidden state never persists for already-visible content.
+    revealIfVisible()
+
     if (!('IntersectionObserver' in window)) {
-      setIsRevealed(true)
+      reveal()
       return
     }
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (!entry.isIntersecting) return
-        setIsRevealed(true)
+        reveal()
         observer.disconnect()
       },
       { threshold: 0.12 }
     )
 
     observer.observe(element)
-    return () => observer.disconnect()
+    // Safari can omit an observer callback after restoring an anchor
+    // position. The scroll listener is a small fallback for that case.
+    window.addEventListener('scroll', revealIfVisible, { passive: true })
+    window.addEventListener('resize', revealIfVisible)
+
+    return () => {
+      observer.disconnect()
+      window.removeEventListener('scroll', revealIfVisible)
+      window.removeEventListener('resize', revealIfVisible)
+    }
   }, [isRevealed])
 
   return [ref, isRevealed]

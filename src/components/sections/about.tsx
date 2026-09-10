@@ -16,7 +16,6 @@ import { LanguageTransition } from '@/components/motion/language-transition'
 import { DotPattern } from '@/components/magicui/dot-pattern'
 import { useLanguage } from '@/hooks/use-language'
 import { GRAIN_BACKGROUND } from '@/lib/grain'
-import { radialGlow } from '@/lib/glow'
 import { cn } from '@/lib/utils'
 
 const EASE = [0.16, 1, 0.3, 1] as const
@@ -274,37 +273,6 @@ export function About() {
         cr={0.75}
         className="pointer-events-none opacity-[0.16] [mask-image:radial-gradient(ellipse_at_center,white,transparent_83%)]"
       />
-      {/*
-        EXPERIMENT (revertible) — the two static corner glows below are
-        disabled via `false &&` rather than deleted, same pattern as
-        hero.tsx's own DotPattern block: replaced by WickGlow, a single
-        glow that loosely trails the wick's lit tip instead of two fixed
-        points. `false &&` keeps this live, type-checked code rather than
-        a comment, so it can't silently rot out of sync while disabled —
-        to revert, delete the WickGlow usage below and flip this to
-        `true` (or drop the wrapper).
-
-        These two corner flashes were originally static and much dimmer
-        than Hero's own (radialGlow(10) there vs radialGlow(3) here)
-        precisely to stay secondary to the wick — WickGlow keeps that
-        same restraint at the start of the section, then grows warmer
-        than either of these ever was by the end (see its own comment).
-      */}
-      {/* eslint-disable-next-line no-constant-binary-expression -- intentional kill-switch, see comment above */}
-      {false && (
-        <>
-          <div
-            aria-hidden="true"
-            style={{ background: radialGlow(3) }}
-            className="pointer-events-none absolute -left-20 top-0 size-[420px] rounded-full blur-[8px]"
-          />
-          <div
-            aria-hidden="true"
-            style={{ background: radialGlow(3) }}
-            className="pointer-events-none absolute -right-20 bottom-0 size-[420px] rounded-full blur-[8px]"
-          />
-        </>
-      )}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 opacity-[0.065] mix-blend-overlay"
@@ -350,9 +318,7 @@ export function About() {
         ~40% down the section — no logic, no motion, just a fixed
         linear-gradient like Hero's own vignette. color-mix at a very
         low percent (not a separate CSS variable) matches how
-        lib/glow.ts's radialGlow already blends the accent color, so
-        this stays visually consistent with every other glow on this
-        screen despite being a one-off gradient rather than that helper.
+        The accent color keeps this consistent with the section lighting.
       */}
       <div
         aria-hidden="true"

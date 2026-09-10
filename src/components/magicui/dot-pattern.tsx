@@ -170,7 +170,6 @@ function InteractiveDotPattern({
   mouseY: externalMouseY,
   ...props
 }: DotPatternProps) {
-  const id = useId()
   const containerRef = useRef<SVGSVGElement>(null)
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
   const isControlled = externalMouseX != null && externalMouseY != null
@@ -232,8 +231,6 @@ function InteractiveDotPattern({
       return {
         x: col * width + cx + x,
         y: row * height + cy + y,
-        delay: Math.random() * 5,
-        duration: Math.random() * 3 + 2,
       }
     }
   )
@@ -251,12 +248,6 @@ function InteractiveDotPattern({
       )}
       {...props}
     >
-      <defs>
-        <radialGradient id={`${id}-gradient`}>
-          <stop offset="0%" stopColor="currentColor" stopOpacity="1" />
-          <stop offset="100%" stopColor="currentColor" stopOpacity="0" />
-        </radialGradient>
-      </defs>
       {dots.map((dot) => (
         <ReactiveDot
           key={`${dot.x}-${dot.y}`}

@@ -1,43 +1,39 @@
-# Portfolio — Екатерина
+# Портфолио Екатерины Меламуд
 
-Персональный сайт-портфолио Екатерины, Project & Operations Manager.
+Персональный сайт Project & Operations Manager, RU/EN.
+Стек: React, TypeScript, Vite, Tailwind CSS, Framer Motion, GradFlow, Radix UI, Lucide.
 
-## Быстрый старт
+## Локальная работа
 
-```bash
-npm install
+Node.js 24 (как в CI), npm:
+
+```sh
+npm ci
 npm run dev
+npm run lint
+npm run build
+npm run preview
 ```
 
-Приложение будет доступно по адресу, который выведет Vite (обычно `http://localhost:5173`).
+`build` проверяет TypeScript и собирает сайт в `dist/`; `preview` показывает сборку локально.
 
-## Команды
+## Deploy
 
-| Команда | Назначение |
-| --- | --- |
-| `npm run dev` | Локальная разработка |
-| `npm run lint` | Проверка кода |
-| `npm run build` | Проверка TypeScript и production-сборка |
-| `npm run preview` | Просмотр готовой сборки |
+[Сайт на GitHub Pages](https://melamudkate-sudo.github.io/portfolio/).
+`.github/workflows/deploy.yml` при push в `main` или ручном запуске выполняет
+`npm ci`, `npm run build` и публикует `dist/` через GitHub Actions.
+Базовый путь `/portfolio/` задан в `vite.config.ts`.
+Пути к `public/` в React используют `import.meta.env.BASE_URL`.
 
-## GitHub Pages
-
-Сайт: https://melamudkate-sudo.github.io/portfolio/
-
-В Settings → Pages → Build and deployment выберите Source: **GitHub Actions**.
-Workflow `.github/workflows/deploy.yml` при каждом push в `main` проверяет TypeScript,
-собирает приложение и публикует только содержимое `dist/`.
-Публикация исходников из корня ветки не подходит для Vite.
-
-Базовый путь `/portfolio/` задан в `vite.config.ts`. Для ресурсов из `public/`
-в React используйте `import.meta.env.BASE_URL`; пути в CSS и HTML обрабатывает Vite.
-Для кнопки скачивания резюме нужно добавить файл `public/resume.pdf`.
+Известное ограничение: кнопка резюме ссылается на `public/resume.pdf`, которого пока нет.
 
 ## Структура
 
-- `src/` — React-компоненты, стили, хуки и утилиты.
-- `public/` — статические материалы сайта: фото, шрифты, изображения для соцсетей.
-- `docs/` — утверждённая концепция, позиционирование, UX и фактическая база для текстов.
-- `PROJECT_CONTEXT.md` — краткий рабочий контекст и правила внесения изменений.
+- `src/components/` — секции, layout, UI и используемые анимации.
+- `src/hooks/`, `src/lib/` — язык интерфейса и общие утилиты.
+- `src/App.tsx`, `src/main.tsx`, `src/index.css` — приложение, точка входа, стили.
+- `public/` — используемые фото, шрифт, favicon и OG-изображение.
+- `.github/workflows/` — deploy; корневые конфиги — Vite, TypeScript и Oxlint.
+- `AGENTS.md` — постоянные правила; `CONTENT.md` — дополнительные факты для будущей работы с контентом.
 
-Перед изменением дизайна или текстов начните с [docs/START_HERE.md](docs/START_HERE.md). Это основной навигатор по документации и зафиксированным решениям проекта.
+`node_modules/`, `dist/` и кэши не хранятся в Git.
