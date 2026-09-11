@@ -1,30 +1,37 @@
 import { useState } from 'react'
-import { Boxes, CheckCheck, Factory, FileText, Globe2, Languages, Link2, Palette, Settings2 } from 'lucide-react'
+import { ArrowRight, Boxes, CheckCheck, Factory, FileText, Globe2, Languages, Link2, Palette, Settings2 } from 'lucide-react'
 import { delay, translate } from './scene-utils'
-import { IconBadge, Method, Outcome, Reconstruction, SceneHeader, type SceneProps } from './scene-primitives'
+import { IconBadge, Reconstruction, SceneHeader, type SceneProps } from './scene-primitives'
 
 export function MarketsScene({ item, language }: SceneProps) {
   const t = translate(language)
-  const [selected, setSelected] = useState(0)
-  const functions = [
-    { name: 'Product', icon: Boxes, detail: t('Продуктовые вводные связываются с подготовкой линейки и нескольких SKU.', 'Product inputs connect to preparation of the line and multiple SKUs.') },
-    { name: 'Operations', icon: Settings2, detail: t('Зависимости и контроль готовности объединяют работу всех участников.', 'Dependencies and readiness tracking connect the work of all participants.') },
-    { name: 'Production', icon: Factory, detail: t('Производственная подготовка синхронизируется с требованиями к материалам.', 'Production preparation is aligned with material requirements.') },
-    { name: 'Design', icon: Palette, detail: t('Дизайн-материалы учитываются в общей подготовке и локализации.', 'Design materials are included in shared preparation and localisation.') },
-    { name: 'Content', icon: FileText, detail: t('Контент и локализация связаны с готовностью материалов по моделям.', 'Content and localisation connect to material readiness for each model.') },
+  const [selected, setSelected] = useState(1)
+  const teams = [
+    { name: t('Продукт', 'Product'), icon: Boxes, detail: t('Связывала продуктовые вводные с подготовкой моделей и материалов.', 'Connected product inputs with model and material preparation.') },
+    { name: t('Операции', 'Operations'), icon: Settings2, detail: t('Координировала зависимости: что нужно подготовить и чья работа связана со следующим шагом.', 'Coordinated dependencies: what needs preparing and whose work connects to the next step.') },
+    { name: t('Производство', 'Production'), icon: Factory, detail: t('Синхронизировала производственную подготовку с требованиями к материалам.', 'Aligned production preparation with material requirements.') },
+    { name: t('Дизайн', 'Design'), icon: Palette, detail: t('Включала дизайн-материалы в общую подготовку линейки и локализацию.', 'Connected design materials to product-line preparation and localisation.') },
+    { name: t('Контент', 'Content'), icon: FileText, detail: t('Связывала подготовку контента и локализацию с готовностью каждой модели.', 'Connected content preparation and localisation with each model’s readiness.') },
   ]
-  return <article className="case-scene markets-scene">
-    <SceneHeader item={item} language={language} role={t('кросс-функциональная координация подготовки линейки', 'cross-functional coordination of product-line preparation')} />
-    <div className="markets-proof"><IconBadge icon={Globe2}/><strong className="scene-number">≈10</strong><div><h4>{t('моделей в подготовке', 'models in preparation')}</h4><p>{t('к зарубежным рынкам', 'for international markets')}</p></div></div>
-    <div className="markets-system">
-      <div className="markets-functions" aria-label={t('Участники подготовки', 'Preparation participants')}>{functions.map(({ name, icon: Icon }, index) => <button key={name} type="button" aria-pressed={selected === index} aria-controls="markets-detail" onClick={() => setSelected(index)}><Icon size={21} aria-hidden="true"/><span>{name}</span></button>)}</div>
-      <div className="markets-readiness scene-enter" style={delay(.35)}>
-        <div className="markets-models"><p className="case-eyebrow">{t('Несколько SKU', 'Multiple SKUs')}</p><div aria-hidden="true">{['A', 'B', 'C'].map(label => <span key={label}><Boxes size={22}/>SKU {label}</span>)}</div><small>{t('Условные обозначения моделей', 'Illustrative model labels')}</small></div>
-        <div className="markets-track">{[[FileText,t('Требования к материалам', 'Material requirements')],[Languages,t('Локализация', 'Localisation')],[Link2,t('Зависимости', 'Dependencies')],[CheckCheck,t('Контроль готовности', 'Readiness tracking')]].map(([Icon,label], index) => { const I = Icon as typeof FileText; return <div className="scene-enter" key={String(label)} style={delay(.45 + index * .12)}><I size={23} aria-hidden="true"/><span>{String(label)}</span></div> })}</div>
+  return <article className="case-scene rollout-scene">
+    <SceneHeader item={item} language={language} role={t('связывала работу участников и контролировала готовность', 'connected participants’ work and tracked readiness')} />
+    <div className="rollout-visual">
+      <div className="rollout-lineup scene-enter" style={delay(.25)}>
+        <span className="case-eyebrow">{t('Масштаб подготовки', 'Preparation scope')}</span>
+        <div className="rollout-count"><strong className="scene-number">≈10</strong><Globe2 size={36} aria-hidden="true"/></div>
+        <h4>{t('моделей для зарубежных рынков', 'models for international markets')}</h4>
+        <div className="rollout-stack" aria-hidden="true"><span/><span/><div><Boxes size={30}/><span>{t('Линейка продукции', 'Product line')}</span><small>{t('Несколько SKU', 'Multiple SKUs')}</small></div></div>
+        <p>{t('У каждой модели — свои материалы и связанные задачи.', 'Each model brings its own materials and connected tasks.')}</p>
       </div>
-      <div id="markets-detail" className="scenario-focus" aria-live="polite"><Link2 size={20} aria-hidden="true"/><p><strong>{functions[selected].name}</strong> · {functions[selected].detail}</p></div>
+      <div className="rollout-coordination">
+        <div className="rollout-question"><span className="case-eyebrow">{t('Задача', 'Challenge')}</span><h4>{t('Как собрать работу разных участников в готовую линейку?', 'How does everyone’s work come together in a ready product line?')}</h4></div>
+        <p className="scene-click-hint">{t('Выберите направление — покажу связи ↓', 'Choose a function to see the connections ↓')}</p><div className="rollout-teams" aria-label={t('Выберите направление', 'Choose a function')}>{teams.map(({ name, icon: Icon }, index) => <button key={name} type="button" aria-pressed={selected === index} aria-controls="rollout-detail" onClick={() => setSelected(index)}><Icon size={24} aria-hidden="true"/><span>{name}</span></button>)}</div>
+        <div className="rollout-connections" aria-hidden="true"><svg viewBox="0 0 600 48" preserveAspectRatio="none">{[60,180,300,420,540].map((x,i)=><path key={x} d={`M${x} 0 V12 Q${x} 25 300 25 V48`} className={i===selected?'active':''}/>)}</svg><span><Link2 size={18}/></span></div>
+        <div id="rollout-detail" className="rollout-detail" aria-live="polite"><span className="case-eyebrow">{t('Моя координация', 'My coordination')}</span><p key={selected}>{teams[selected].detail}</p></div>
+        <div className="rollout-checks">{[[FileText,t('Материалы', 'Materials'),t('Соответствуют требованиям?', 'Meet the requirements?')],[Languages,t('Локализация', 'Localisation'),t('Адаптированы для рынка?', 'Adapted for the market?')],[Link2,t('Зависимости', 'Dependencies'),t('Учтены связанные задачи?', 'Connected tasks accounted for?')]].map(([Icon,title,question])=>{const I=Icon as typeof FileText;return <div key={String(title)}><I size={22} aria-hidden="true"/><div><strong>{String(title)}</strong><p>{String(question)}</p></div></div>})}</div>
+      </div>
     </div>
-    <Outcome label={t('Фокус проекта', 'Project focus')}>{t('Общая картина готовности линейки: материалы, локализация и зависимости между функциями.', 'A shared view of product-line readiness: materials, localisation, and cross-functional dependencies.')}</Outcome>
-    <Method item={item} language={language} icons={[Settings2, Languages, CheckCheck]}/><Reconstruction language={language}/>
+    <div className="rollout-takeaway"><IconBadge icon={CheckCheck}/><div><h4>{t('Одна картина готовности', 'One shared view of readiness')}</h4><p>{t('Контролировала материалы, локализацию и зависимости по линейке. Речь о подготовке к выходу на рынки.', 'Tracked materials, localisation, and dependencies across the line. This work concerns preparation for market entry.')}</p></div><ArrowRight size={26} aria-hidden="true"/></div>
+    <Reconstruction language={language}/>
   </article>
 }

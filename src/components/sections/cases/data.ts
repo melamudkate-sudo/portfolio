@@ -38,8 +38,8 @@ export const CASES: Case[] = [
   {
     number: '02', type: 'scenario',
     category: { ru: 'Бизнес-моделирование и запуск', en: 'Business modelling and launch planning' },
-    title: { ru: 'In-house production: от экономики до запуска', en: 'In-house production: from economics to a launch model' },
-    lead: { ru: 'Разработала модель внутреннего производства: экономика, команда, ресурсы и площадка.', en: 'Developed an in-house production model spanning economics, team, resources, and premises.' },
+    title: { ru: 'Своё видеопроизводство: экономика и запуск', en: 'In-house video: economics and launch planning' },
+    lead: { ru: 'Сравнила три способа производить видео и рассчитала, что нужно для своей команды.', en: 'Compared three ways to produce video and modelled what an in-house team would need.' },
     context: { ru: 'Рост производства требовал сопоставить внешний пул затрат с моделью собственного запуска.', en: 'Production growth required comparing the external cost pool with an in-house launch model.' },
     actions: [
       { ru: 'Проанализировала внешний пул затрат и сравнила варианты производства.', en: 'Analysed the external cost pool and compared production options.' },
@@ -52,9 +52,9 @@ export const CASES: Case[] = [
     number: '03',
     type: 'product',
     category: { ru: 'Продуктовое мышление', en: 'Product thinking' },
-    title: { ru: 'Проектирование системы управления производством', en: 'Designing an internal production-management system' },
-    lead: { ru: 'Связала бизнес-задачу, сценарии пользователей и операционную логику в интерактивном прототипе.', en: 'Connected the business problem, user scenarios, and operating logic in an interactive prototype.' },
-    context: { ru: 'Проработка MVP смещалась к набору отдельных функций и рисковала потерять ценность для реального сценария работы.', en: 'MVP work was shifting toward a feature set and risking loss of value for the real work scenario.' },
+    title: { ru: 'Проектирование системы управления производством', en: 'Designing a production-management system' },
+    lead: { ru: 'Проработала, кто делает работу, как передаёт её дальше и где руководитель видит задержки.', en: 'Designed how people own work, hand it over, and make delays visible to managers.' },
+    context: { ru: 'Функции обсуждались по отдельности. Нужно было связать их с тем, как люди действительно работают.', en: 'Features were being discussed in isolation. They needed to connect to how people actually work.' },
     actions: [
       { ru: 'Проанализировала MVP, роли и пользовательские сценарии.', en: 'Analysed the MVP, roles, and user scenarios.' },
       { ru: 'Описала этапы, ответственных, передачи, статусы, сроки и риски.', en: 'Defined stages, owners, handoffs, statuses, deadlines, and risks.' },
@@ -68,7 +68,7 @@ export const CASES: Case[] = [
     type: 'kpi',
     category: { ru: 'Аналитика и мотивация', en: 'Analytics and motivation' },
     title: { ru: 'KPI, которыми сотрудник может управлять', en: 'KPIs employees can actually influence' },
-    lead: { ru: 'Отделила управляемый результат от внешних зависимостей — и построила систему оценки.', en: 'Separated controllable outcomes from external dependencies to design a fairer assessment system.' },
+    lead: { ru: 'Разработала оценку работы, которая отделяет вклад сотрудника от обстоятельств вне его контроля.', en: 'Designed an assessment that separates an employee’s contribution from circumstances beyond their control.' },
     context: { ru: 'Исходные показатели были фрагментарными, плохо измеримыми и не отражали реальную работу сотрудников.', en: 'Initial metrics were fragmented, difficult to measure, and did not reflect employees’ actual work.' },
     actions: [
       { ru: 'Провела интервью с сотрудниками, руководителями и владельцами процессов.', en: 'Interviewed employees, leaders, and process owners.' },
@@ -82,7 +82,7 @@ export const CASES: Case[] = [
     number: '05', type: 'markets',
     category: { ru: 'Кросс-функциональный запуск', en: 'Cross-functional rollout' },
     title: { ru: 'Подготовка линейки к зарубежным рынкам', en: 'Preparing a product line for international markets' },
-    lead: { ru: 'Синхронизировала подготовку моделей, материалов и локализации между пятью функциями.', en: 'Coordinated model preparation, materials, and localisation across five functions.' },
+    lead: { ru: 'Связала работу продукта, производства, дизайна, контента и операций в общую подготовку линейки.', en: 'Connected product, production, design, content, and operations in preparing the product line.' },
     context: { ru: 'Для нескольких SKU нужно было связать требования к материалам, локализацию и зависимости в общую картину готовности.', en: 'Multiple SKUs required a shared view of material requirements, localisation, dependencies, and readiness.' },
     actions: [
       { ru: 'Синхронизировала product, operations, production, design и content.', en: 'Aligned product, operations, production, design, and content.' },
@@ -95,7 +95,7 @@ export const CASES: Case[] = [
     number: '06', type: 'tender',
     category: { ru: 'Коммерческий отбор', en: 'Commercial selection' },
     title: { ru: 'Тендер: от 20 компаний до обоснованного выбора', en: 'Tender: from 20 companies to an informed choice' },
-    lead: { ru: 'Привела предложения и тестовые работы к единой основе для сравнения.', en: 'Brought proposals and test projects onto a consistent basis for comparison.' },
+    lead: { ru: 'Организовала отбор так, чтобы сравнивать предложения компаний и результаты их тестовых работ.', en: 'Coordinated a selection process comparing companies’ proposals and test-project results.' },
     context: { ru: 'Выбор требовал сопоставимых вводных, коммерческих предложений и результатов тестовых работ.', en: 'The selection required comparable briefs, commercial proposals, and test-project results.' },
     actions: [
       { ru: 'Сформировала пул, подготовила единые вводные и собрала КП.', en: 'Built the company pool, prepared a shared brief, and collected proposals.' },

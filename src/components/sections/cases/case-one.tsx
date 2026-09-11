@@ -74,7 +74,7 @@ function EffectChart({ language }: { language: 'ru' | 'en' }) {
   const areaPath = `${linePath} L 468 250 L 30 250 Z`
 
   return (
-    <div ref={ref} onClick={() => setSelectedMilestone(null)} className="relative flex aspect-square min-w-0 flex-col overflow-hidden rounded-2xl border border-primary/25 bg-card/70 p-3.5 shadow-[0_22px_60px_-38px_rgba(235,116,67,0.45)] sm:p-4 lg:self-end">
+    <div ref={ref} onClick={() => setSelectedMilestone(null)} className="case-one-chart relative flex aspect-square min-w-0 flex-col overflow-hidden rounded-2xl border border-primary/25 bg-card/70 p-3.5 shadow-[0_22px_60px_-38px_rgba(235,116,67,0.45)] sm:p-4 lg:self-end">
       <div aria-hidden="true" className="pointer-events-none absolute -right-16 top-6 size-48 rounded-full bg-primary/[0.11] blur-3xl" />
       <div className="relative flex items-start justify-between gap-4">
         <div>
@@ -105,7 +105,7 @@ function EffectChart({ language }: { language: 'ru' | 'en' }) {
           </clipPath>
         </defs>
         <motion.g initial={{ opacity: 0 }} animate={isVisible ? { opacity: 1 } : { opacity: 0 }} transition={{ duration: 0.3 }}>
-          {[[50, '100'], [90, '80'], [130, '60'], [170, '40'], [210, '20'], [250, '0']].map(([y, value]) => <g key={value}><line x1="28" x2="482" y1={y} y2={y} stroke="currentColor" strokeOpacity="0.11" strokeDasharray="2 6" /><text x="20" y={Number(y) + 3} textAnchor="end" fill="currentColor" opacity="0.58" fontSize="8">{value}</text></g>)}
+          {[[50, '100'], [90, '80'], [130, '60'], [170, '40'], [210, '20'], [250, '0']].map(([y, value]) => <g key={value}><line x1="28" x2="482" y1={y} y2={y} stroke="currentColor" strokeOpacity="0.11" strokeDasharray="2 6" /><text x="20" y={Number(y) + 3} textAnchor="end" fill="currentColor" opacity="0.58" fontSize="12">{value}</text></g>)}
           <line x1="28" x2="482" y1="250" y2="250" stroke="currentColor" strokeOpacity="0.4" />
           <line x1="28" x2="28" y1="8" y2="250" stroke="currentColor" strokeOpacity="0.44" />
         </motion.g>
@@ -115,12 +115,12 @@ function EffectChart({ language }: { language: 'ru' | 'en' }) {
           <motion.circle key={cx} cx={cx} cy={cy} r={index === points.length - 1 ? 4.8 : 3.2} fill="var(--primary)" stroke="var(--background)" strokeWidth="2" initial={{ opacity: 0, scale: 0 }} animate={isVisible ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }} transition={{ duration: 0.26, delay: reduceMotion ? 0 : 0.55 + index * 0.14, ease: EASE }} style={{ transformOrigin: `${cx}px ${cy}px` }} />
         ))}
         <motion.circle cx="468" cy="24" r="5" fill="var(--primary)" filter="url(#case-one-glow)" initial={{ opacity: 0, scale: 0.5 }} animate={isVisible ? { opacity: [0, 0.52, 0], scale: [0.5, 2.1, 2.7] } : { opacity: 0, scale: 0.5 }} transition={{ duration: 0.68, delay: reduceMotion ? 0 : 1.58, ease: 'easeOut' }} style={{ transformOrigin: '468px 24px' }} />
-        {labels.map((label, index) => <text key={index} x={30 + index * 73} y="274" textAnchor="middle" fill="currentColor" opacity="0.58" fontSize="8">{label}</text>)}
+        {labels.map((label, index) => <text key={index} x={30 + index * 73} y="274" textAnchor="middle" fill="currentColor" opacity="0.58" fontSize="12">{label}</text>)}
       </svg>
       {milestones.map((milestone, index) => {
         const [cx, cy] = points[milestone.pointIndex]
         const isSelected = selected?.pointIndex === milestone.pointIndex
-        return <button key={milestone.pointIndex} type="button" aria-label={milestone.title} onClick={(event) => { event.stopPropagation(); setSelectedMilestone(index) }} className="absolute z-[1] flex size-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-primary bg-card text-[8px] font-bold leading-none text-primary transition-[border-color,box-shadow] hover:border-primary/80 hover:shadow-[0_0_0_3px_hsl(var(--primary)/0.12)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60" style={{ left: `${cx / 5}%`, top: `${cy / 2.78}%`, borderWidth: isSelected ? '2px' : '1.5px' }}>i</button>
+        return <button key={milestone.pointIndex} type="button" aria-label={milestone.title} onClick={(event) => { event.stopPropagation(); setSelectedMilestone(index) }} className="absolute z-[1] flex size-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-primary bg-card text-[11px] font-medium leading-none text-primary transition-[border-color,box-shadow] hover:border-primary/80 hover:shadow-[0_0_0_3px_hsl(var(--primary)/0.12)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60" style={{ left: `${cx / 5}%`, top: `${cy / 2.78}%`, borderWidth: isSelected ? '2px' : '1.5px' }}>i</button>
       })}
       </div>
       <div className="relative mt-1 flex items-center gap-2 text-[10px] text-muted-foreground"><span className="h-px w-8 bg-primary" />{language === 'ru' ? 'Индекс управляемости нагрузки' : 'Workload manageability index'}</div>
@@ -211,10 +211,11 @@ export function CaseOne({ item, language }: { item: Case; language: 'ru' | 'en' 
       <div aria-hidden="true" className="pointer-events-none absolute -bottom-24 right-[8%] size-72 rounded-full bg-primary/[0.07] blur-3xl" />
       <div className="relative grid gap-6 lg:grid-cols-[minmax(0,1.48fr)_minmax(15rem,0.52fr)] lg:gap-7">
         <div className="min-w-0">
-          <motion.div {...reveal(0)} className="flex items-center gap-3"><span className="text-xs font-medium tabular-nums tracking-[0.16em] text-primary">{item.number}</span><span className="h-px w-8 bg-primary/70" /><p className="text-xs font-medium text-muted-foreground">{item.category[language]}</p></motion.div>
+          <motion.p {...reveal(0)} className="case-eyebrow">{item.number} — {item.category[language]}</motion.p>
           <motion.h3 {...reveal(0.12)} className="mt-3 max-w-[26ch] text-balance text-3xl font-medium tracking-[-0.035em] text-foreground sm:text-4xl xl:text-[2.35rem] xl:leading-[1.08]">{item.title[language]}</motion.h3>
-          <p className="mt-3 text-xs text-muted-foreground">{language === 'ru' ? 'Моя роль · анализ ресурсов, проектирование модели, адаптация' : 'My role · resource analysis, model design, onboarding'}</p>
+
           <motion.p {...reveal(0.24)} className="mt-3 max-w-2xl text-pretty text-base leading-relaxed text-primary">{item.lead[language]}</motion.p>
+          <p className="mt-3 text-xs text-muted-foreground">{language === 'ru' ? 'Моя роль · анализ ресурсов, проектирование модели, адаптация' : 'My role · resource analysis, model design, onboarding'}</p>
 
           <div className="case-one-body mt-6 grid gap-5 lg:grid-cols-[minmax(0,1.36fr)_minmax(13rem,1.14fr)] lg:items-start">
             <div>

@@ -1,123 +1,77 @@
-import { Bot, ChartNoAxesCombined, Compass, MessagesSquare, Settings2, Workflow } from 'lucide-react'
-import type { LucideIcon } from 'lucide-react'
-
-import { FadeIn } from '@/components/motion/fade-in'
+import { useState } from 'react'
+import { motion, useReducedMotion } from 'framer-motion'
+import { ArrowDown, ArrowRight, Blocks, Bot, ChartNoAxesCombined, ClipboardList, Database, FileCheck2, GitBranch, Layers3, ListChecks, Network, Route, Scale, ScanLine, Settings2, SlidersHorizontal, Users, Wallet } from 'lucide-react'
 import { useLanguage } from '@/hooks/use-language'
-import { cn, SECTION_CONTAINER_CLASS } from '@/lib/utils'
+import { SECTION_CONTAINER_CLASS } from '@/lib/utils'
+import { analysis, levels, management, toolGroups, type Competency, type Level, type Tool } from './expertise/data'
+import './expertise/expertise.css'
 
-type SkillGroup = {
-  title: { ru: string; en: string }
-  note: { ru: string; en: string }
-  tags: { ru: string[]; en: string[] }
-  Icon: LucideIcon
-  featured?: boolean
+const managementIcons = [ClipboardList, Route, SlidersHorizontal, Network, Users, FileCheck2]
+const analysisIcons = [ChartNoAxesCombined, ScanLine, Bot, Layers3, Blocks, Wallet]
+const toolIcons = [GitBranch, Database, FileCheck2, Bot, Layers3, Settings2]
+
+function LevelLabel({ level }: { level: Level }) {
+  const { language } = useLanguage()
+  return <span className={`expertise-level level-${level}`}><span aria-hidden="true" />{levels[level][language]}</span>
 }
 
-const GROUPS: SkillGroup[] = [
-  {
-    title: { ru: 'Проектирование', en: 'Designing systems' },
-    note: { ru: 'От процесса к понятной модели работы.', en: 'From a process to a clear operating model.' },
-    tags: {
-      ru: ['Бизнес-процессы', 'Ролевые модели', 'Информационная архитектура'],
-      en: ['Business processes', 'Role models', 'Information architecture'],
-    },
-    Icon: Compass,
-  },
-  {
-    title: { ru: 'Коммуникация', en: 'Communication' },
-    note: { ru: 'Соединяю людей, контекст и следующее действие.', en: 'Connecting people, context, and the next action.' },
-    tags: {
-      ru: ['Фасилитация', 'Интервью', 'Переговоры'],
-      en: ['Facilitation', 'Interviews', 'Negotiation'],
-    },
-    Icon: MessagesSquare,
-  },
-  {
-    title: { ru: 'Аналитика', en: 'Analysis' },
-    note: { ru: 'Решения на основе нагрузки, сценариев и рисков.', en: 'Decisions based on capacity, scenarios, and risks.' },
-    tags: {
-      ru: ['Трудоёмкость', 'Финансовые модели', 'Управленческая отчётность'],
-      en: ['Effort modelling', 'Financial models', 'Management reporting'],
-    },
-    Icon: ChartNoAxesCombined,
-  },
-  {
-    title: { ru: 'Управление', en: 'Management' },
-    note: { ru: 'Довожу изменения до работающего результата.', en: 'Taking change through to a working result.' },
-    tags: {
-      ru: ['Кросс-функциональные проекты', 'Подрядчики', 'Изменения'],
-      en: ['Cross-functional projects', 'Contractors', 'Change management'],
-    },
-    Icon: Workflow,
-  },
-  {
-    title: { ru: 'AI', en: 'AI' },
-    note: { ru: 'Использую ИИ как рабочий инструмент, а не витрину.', en: 'Using AI as a work tool, not a display case.' },
-    tags: {
-      ru: ['AI-assisted development', 'Промпт-библиотеки', 'Google Apps Script'],
-      en: ['AI-assisted development', 'Prompt libraries', 'Google Apps Script'],
-    },
-    Icon: Bot,
-    featured: true,
-  },
-  {
-    title: { ru: 'Автоматизация', en: 'Automation' },
-    note: { ru: 'Убираю ручные действия там, где они не создают ценности.', en: 'Removing manual work where it creates no value.' },
-    tags: {
-      ru: ['Bitrix24', 'Трекеры', 'Дашборды'],
-      en: ['Bitrix24', 'Trackers', 'Dashboards'],
-    },
-    Icon: Settings2,
-  },
-]
+function CompetencyRow({ item, index, analytical = false }: { item: Competency; index: number; analytical?: boolean }) {
+  const { language } = useLanguage()
+  const Icon = (analytical ? analysisIcons : managementIcons)[index]
+  return <li className="expertise-row">
+    <span className="expertise-row-icon" aria-hidden="true"><Icon size={21} strokeWidth={1.5} /></span>
+    <div className="expertise-row-copy"><div className="expertise-row-heading"><h4>{item.title[language]}</h4><LevelLabel level={item.level} /></div><p>{item.scope[language]}</p></div>
+  </li>
+}
+
+function ToolMark({ tool }: { tool: Tool }) {
+  return <span className="expertise-tool-mark" aria-hidden="true">{tool.logo
+    ? <img src={`${import.meta.env.BASE_URL}expertise/${tool.logo}`} className={tool.mono ? 'is-monochrome' : undefined} width="32" height="32" alt="" loading="lazy" />
+    : <Database size={28} strokeWidth={1.5} />}</span>
+}
 
 export function Skills() {
   const { language } = useLanguage()
+  const ru = language === 'ru'
+  const reduced = useReducedMotion()
+  const [selected, setSelected] = useState(0)
+  const group = toolGroups[selected]
+  const entrance = { initial: reduced ? false as const : { opacity: 0, y: 14 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, amount: 0.08 }, transition: { duration: 0.4 } }
 
-  return (
-    <section id="skills" className="relative z-50 -mt-8 isolate overflow-hidden rounded-t-[3rem] bg-[color-mix(in_oklab,var(--color-muted)_20%,var(--color-background))] py-24 sm:py-32">
-      <span aria-hidden="true" className="pointer-events-none absolute -left-3 top-12 select-none font-heading text-[10rem] leading-none text-foreground/[0.035] sm:-left-5 sm:top-14 sm:text-[clamp(12rem,25vw,27rem)]">04</span>
-      <div className={cn('relative', SECTION_CONTAINER_CLASS)}>
-        <FadeIn className="flex max-w-2xl flex-col gap-4">
-          <h2 className="text-balance text-5xl font-medium tracking-[-0.045em] text-foreground sm:text-6xl lg:text-7xl">
-            <span>{language === 'ru' ? 'Навыки, которые ' : 'Skills that '}</span>
-            <span className="font-heading text-[1.16em] text-primary">{language === 'ru' ? 'работают вместе' : 'work together'}</span>
-          </h2>
-          <p className="text-pretty text-lg leading-relaxed text-muted-foreground">
-            {language === 'ru'
-              ? 'Не список инструментов, а набор способов доводить сложные задачи до понятного результата.'
-              : 'Not a tool list, but a set of ways to take complex work to a clear outcome.'}
-          </p>
-        </FadeIn>
-
-        <div className="mt-14 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {GROUPS.map(({ title, note, tags, Icon, featured }, index) => (
-            <FadeIn key={title.ru} delay={index * 0.06}>
-              <article
-                className={cn(
-                  'group flex min-h-64 flex-col rounded-3xl border p-6 transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-xl',
-                  featured
-                    ? 'border-primary/50 bg-primary/[0.08] shadow-lg shadow-primary/5 hover:shadow-primary/10'
-                    : 'border-border bg-card/70 hover:border-primary/40 hover:shadow-black/10'
-                )}
-              >
-                <div className={cn('flex size-11 items-center justify-center rounded-2xl border', featured ? 'border-primary/30 bg-primary text-primary-foreground' : 'border-primary/30 bg-background text-primary')}>
-                  <Icon aria-hidden="true" className="size-5" strokeWidth={1.6} />
-                </div>
-                <h3 className="mt-8 text-2xl font-medium tracking-tight text-foreground">{title[language]}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{note[language]}</p>
-                <ul className="mt-auto flex flex-wrap gap-2 pt-8">
-                  {tags[language].map((tag) => (
-                    <li key={tag} className="rounded-full border border-border bg-background/50 px-3 py-1.5 text-xs text-muted-foreground">
-                      {tag}
-                    </li>
-                  ))}
-                </ul>
-              </article>
-            </FadeIn>
-          ))}
+  return <section id="skills" aria-labelledby="expertise-title" className="expertise-section">
+    <div className={SECTION_CONTAINER_CLASS}>
+      <motion.header className="expertise-header" {...entrance}>
+        <div><p className="expertise-kicker">04 / {ru ? 'ПРОФЕССИОНАЛЬНЫЙ ПРОФИЛЬ' : 'PROFESSIONAL PROFILE'}</p><h2 id="expertise-title">{ru ? 'Экспертиза' : 'Expertise'}<span aria-hidden="true">.</span></h2></div>
+        <p className="expertise-lead">{ru ? 'Проектирую процессы, управляю реализацией, выстраиваю аналитику и автоматизацию.' : 'Designing processes, managing delivery, and building analytics and automation.'}</p>
+      </motion.header>
+      <motion.div className="expertise-management" {...entrance}>
+        <header className="expertise-band-heading"><span className="expertise-index" aria-hidden="true">01</span><div><p className="expertise-kicker">{ru ? 'ОСНОВА' : 'CORE PRACTICE'}</p><h3>{ru ? 'Управление проектами и операциями' : 'Project and operations management'}</h3></div><span className="expertise-band-icon" aria-hidden="true"><Route size={38} strokeWidth={1.2} /></span></header>
+        <ol className="expertise-management-list">{management.map((item, index) => <CompetencyRow key={index} item={item} index={index} />)}</ol>
+      </motion.div>
+      <motion.div className="expertise-analysis" {...entrance}>
+        <div className="expertise-analysis-intro"><div className="expertise-band-heading"><span className="expertise-index" aria-hidden="true">02</span><p className="expertise-kicker">{ru ? 'АНАЛИТИЧЕСКИЙ СЛОЙ' : 'ANALYTICAL PRACTICE'}</p></div><h3>{ru ? 'Аналитика, автоматизация и продуктовые задачи' : 'Analytics, automation and product work'}</h3>
+          <div className="expertise-model" aria-label={ru ? 'От данных через модель к решению' : 'From data through a model to a decision'}>
+            <div><Database size={22} aria-hidden="true" /><span>{ru ? 'Данные' : 'Data'}</span><small>{ru ? 'Исследование и вводные' : 'Research and inputs'}</small></div><ArrowDown className="expertise-model-arrow" size={20} aria-hidden="true" />
+            <div className="expertise-model-core"><Scale size={27} aria-hidden="true" /><span>{ru ? 'Модель' : 'Model'}</span><small>{ru ? 'Факторы · логика · сценарии' : 'Factors · logic · scenarios'}</small></div><ArrowDown className="expertise-model-arrow" size={20} aria-hidden="true" />
+            <div><ListChecks size={22} aria-hidden="true" /><span>{ru ? 'Решение' : 'Decision'}</span><small>{ru ? 'Требования и реализация' : 'Requirements and implementation'}</small></div>
+          </div>
         </div>
-      </div>
-    </section>
-  )
+        <ol className="expertise-analysis-list">{analysis.map((item, index) => <CompetencyRow key={index} item={item} index={index} analytical />)}</ol>
+      </motion.div>
+      <motion.div className="expertise-tools" {...entrance}>
+        <header className="expertise-tools-heading"><div className="expertise-band-heading"><span className="expertise-index" aria-hidden="true">03</span><div><p className="expertise-kicker">{ru ? 'РАБОЧИЙ СТЕК' : 'WORKING TOOLKIT'}</p><h3>{ru ? 'Инструменты' : 'Tools'}</h3></div></div><p>{ru ? 'Выберите категорию, чтобы посмотреть инструменты и уровень владения.' : 'Choose a category to explore tools and proficiency levels.'}<ArrowDown size={16} aria-hidden="true" /></p></header>
+        <div className="expertise-tool-browser">
+          <div className="expertise-tool-categories" role="group" aria-label={ru ? 'Категории инструментов' : 'Tool categories'}>{toolGroups.map((category, index) => {
+            const Icon = toolIcons[index]
+            return <button key={category.id} type="button" aria-pressed={selected === index} aria-controls="expertise-tool-results" onClick={() => setSelected(index)}><Icon size={18} strokeWidth={1.5} aria-hidden="true" /><span>{category.title[language]}</span><ArrowRight size={16} aria-hidden="true" /></button>
+          })}</div>
+          <div id="expertise-tool-results" className="expertise-tool-results" role="region" aria-labelledby="expertise-tool-category" aria-live="polite" aria-atomic="true">
+            <div className="expertise-result-heading"><h4 id="expertise-tool-category">{group.title[language]}</h4><span>{String(group.tools.length).padStart(2, '0')} / {ru ? 'ИНСТРУМЕНТЫ' : 'TOOLS'}</span></div>
+            <motion.ul key={group.id} className="expertise-tool-grid" initial={reduced ? false : { opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.18 }}>{group.tools.map(tool => <li key={tool.name} className="expertise-tool"><ToolMark tool={tool} /><div><h5>{tool.name}</h5><LevelLabel level={tool.level} /></div></li>)}</motion.ul>
+            <p className="expertise-tool-note">{ru ? 'Уровни отражают практическое владение инструментами.' : 'Levels reflect practical proficiency with each tool.'}</p>
+          </div>
+        </div>
+      </motion.div>
+    </div>
+  </section>
 }

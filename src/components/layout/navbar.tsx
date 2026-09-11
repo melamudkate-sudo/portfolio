@@ -17,7 +17,7 @@ const LINKS = [
   { href: '#about', num: '01', ru: 'Обо мне', en: 'About' },
   { href: '#approach', num: '02', ru: 'Как работаю', en: 'Approach' },
   { href: '#work', num: '03', ru: 'Кейсы', en: 'Cases' },
-  { href: '#skills', num: '04', ru: 'Навыки', en: 'Skills' },
+  { href: '#skills', num: '04', ru: 'Экспертиза', en: 'Expertise' },
   { href: '#experience', num: '05', ru: 'Опыт', en: 'Experience' },
   { href: '#contact', num: '06', ru: 'Контакты', en: 'Contacts' },
 ] as const

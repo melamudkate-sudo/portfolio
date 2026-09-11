@@ -1,6 +1,6 @@
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 import { AnimatePresence, MotionConfig, motion, useReducedMotion } from 'framer-motion'
-import { useRef, useState } from 'react'
+import { useLayoutEffect, useRef, useState, type CSSProperties } from 'react'
 import { useLanguage } from '@/hooks/use-language'
 import { CASES } from './cases/data'
 import { CaseOne } from './cases/case-one'
@@ -8,11 +8,20 @@ import { CaseStory } from './cases/case-stories'
 import { MoreScene } from './cases/more-scene'
 import './cases/cases.css'
 import './cases/cases-update.css'
+import './cases/storytelling.css'
 
 export function Cases() {
   const { language } = useLanguage()
   const reduced = useReducedMotion()
   const [active, setActive] = useState(0)
+  const [compactScale, setCompactScale] = useState(1)
+  useLayoutEffect(() => {
+    // Keep the complete carousel visible on short desktop viewports.
+    const resize = () => setCompactScale(window.innerWidth > 1100 ? Math.min(1, Math.max(.76, (window.innerHeight - 260) / 600)) : 1)
+    resize()
+    window.addEventListener('resize', resize)
+    return () => window.removeEventListener('resize', resize)
+  }, [])
   const [direction, setDirection] = useState(1)
   const busy = useRef(false)
   const carousel = useRef<HTMLDivElement>(null)
@@ -31,8 +40,8 @@ export function Cases() {
   const isMore = active === CASES.length
   const screenName = isMore ? t('Ещё внедрила', 'Also implemented') : CASES[active].title[language]
   return <MotionConfig reducedMotion="user"><section id="work" className="cases-section" aria-labelledby="cases-title">
-    <div className="cases-intro"><p className="case-eyebrow">03 / {t('Избранные кейсы', 'Selected work')}</p><h2 id="cases-title">{t('От причины ', 'From cause ')}<span>{t('к результату', 'to outcome')}</span></h2><p>{t('Шесть историй о процессах, ресурсах и решениях. Схемы реконструированы для портфолио; внутренние названия, интерфейсы и бюджеты не раскрываются.', 'Six stories about processes, resources, and decisions. Diagrams are portfolio reconstructions; internal names, interfaces, and budgets are not disclosed.')}</p></div>
-    <div ref={carousel} className="cases-carousel" role="region" aria-roledescription={t('карусель', 'carousel')} aria-label={t('Кейсы портфолио', 'Portfolio cases')} tabIndex={0} onKeyDown={event => {
+    <div className="cases-intro"><p className="case-eyebrow">03 / {t('Избранные кейсы', 'Selected work')}</p><h2 id="cases-title">{t('От причины ', 'From cause ')}<span>{t('к результату', 'to outcome')}</span></h2><p>{t('Шесть историй о процессах, ресурсах и решениях. Схемы реконструированы для портфолио; внутренние названия и интерфейсы не раскрываются.', 'Six stories about processes, resources, and decisions. Diagrams are portfolio reconstructions; internal names and interfaces are not disclosed.')}</p></div>
+    <div ref={carousel} className="cases-carousel" style={{ '--case-content-scale': compactScale } as CSSProperties} role="region" aria-roledescription={t('карусель', 'carousel')} aria-label={t('Кейсы портфолио', 'Portfolio cases')} tabIndex={0} onKeyDown={event => {
       if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return
       if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') { event.preventDefault(); step(event.key === 'ArrowRight' ? 1 : -1) }
     }}>
