@@ -55,7 +55,7 @@ export function Experience() {
       <div className={SECTION_CONTAINER_CLASS}>
         <motion.header className="experience-heading" {...reveal}>
           <div>
-            <p className="experience-eyebrow">05 / {ru ? 'ПРОФЕССИОНАЛЬНАЯ ТРАЕКТОРИЯ' : 'PROFESSIONAL PATH'}</p>
+            <p className="experience-eyebrow">04 / {ru ? 'ПРОФЕССИОНАЛЬНАЯ ТРАЕКТОРИЯ' : 'PROFESSIONAL PATH'}</p>
             <h2 id="experience-title">{ru ? 'Опыт' : 'Experience'}<span aria-hidden="true">.</span></h2>
           </div>
           <p className="experience-path" aria-label={ru ? 'RAVENSOFT: подготовка запуска. DEMIAND: развитие работающей системы.' : 'RAVENSOFT: launch preparation. DEMIAND: developing established operations.'}>

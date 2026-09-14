@@ -1,0 +1,156 @@
+.about-section {
+  position: relative;
+  z-index: 20;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 72px 0 64px;
+  scroll-margin-top: 80px;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--color-background) 95%, var(--color-primary)), var(--color-background) 85%);
+  color: var(--color-foreground);
+}
+.about-section * { min-width: 0; }
+.about-introduction {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 72px;
+  align-items: center;
+}
+.about-eyebrow {
+  margin-bottom: 20px;
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: .15em;
+  color: var(--color-primary);
+}
+.about-personal h2 {
+  font-size: 48px;
+  font-weight: 500;
+  line-height: 1.12;
+  letter-spacing: -.04em;
+}
+.about-name {
+  display: block;
+  margin-top: 8px;
+  font-family: var(--font-heading);
+  font-size: 76px;
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -.05em;
+  color: var(--color-primary);
+}
+.about-main-copy {
+  font-size: 22px;
+  line-height: 1.65;
+  letter-spacing: -.02em;
+  text-wrap: pretty;
+}
+.about-main-copy > span { color: var(--color-primary); }
+.about-personal-note {
+  max-width: 510px;
+  margin-top: 22px;
+  padding-left: 17px;
+  border-left: 1px solid color-mix(in oklab, var(--color-primary) 40%, transparent);
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--color-muted-foreground);
+  text-wrap: pretty;
+}
+.about-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  margin-top: 38px;
+  padding-top: 20px;
+  border-top: 1px solid var(--color-border);
+}
+.about-markers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px 20px;
+  list-style: none;
+  color: var(--color-muted-foreground);
+  font-size: 12px;
+  line-height: 1.5;
+}
+.about-markers li { display: flex; gap: 20px; align-items: center; }
+.about-markers li:not(:last-child)::after {
+  content: '';
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  opacity: .7;
+}
+.about-cases-cue {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  min-width: 72px;
+  min-height: 58px;
+  padding: 4px 8px 0;
+  color: var(--color-primary);
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: color .2s, opacity .2s;
+}
+.about-cases-cue svg {
+  width: 30px;
+  height: 37px;
+  overflow: visible;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.35;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform .25s ease;
+}
+.about-cases-cue:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 3px; border-radius: 4px; }
+@media (hover: hover) {
+  .about-cases-cue:hover { color: var(--color-foreground); }
+  .about-cases-cue:hover svg { transform: translateY(4px); }
+}
+@media (max-width: 1100px) {
+  .about-introduction { gap: 40px; }
+  .about-personal h2 { font-size: 42px; }
+  .about-name { font-size: 66px; }
+  .about-main-copy { font-size: 20px; }
+}
+@media (max-width: 800px) {
+  .about-section { padding: 56px 0; }
+  .about-introduction { grid-template-columns: 1fr; gap: 28px; }
+  .about-personal h2 { font-size: 44px; }
+  .about-name { display: inline; margin: 0; font-size: 66px; }
+  .about-story { max-width: 660px; }
+  .about-personal-note { max-width: 600px; margin-top: 18px; }
+  .about-footer { margin-top: 26px; }
+  .about-markers { gap: 8px 12px; }
+  .about-markers li { gap: 12px; }
+}
+@media (max-width: 639px) {
+  .about-section > .mx-auto { padding-inline: 20px; }
+  .about-eyebrow { margin-bottom: 16px; font-size: 9px; }
+  .about-personal h2 { font-size: 36px; }
+  .about-name { display: block; margin-top: 6px; font-size: 60px; }
+  .about-introduction { gap: 25px; }
+  .about-main-copy { font-size: 18px; line-height: 1.65; }
+  .about-personal-note { font-size: 14px; padding-left: 14px; }
+  .about-footer { align-items: start; flex-direction: column; gap: 12px; padding-top: 20px; }
+  .about-markers { font-size: 11px; gap: 8px 11px; }
+  .about-markers li { gap: 11px; }
+  .about-cases-cue { align-self: flex-end; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .about-section *, .about-section *::before, .about-section *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .about-cases-cue:hover svg { transform: none; }
+}

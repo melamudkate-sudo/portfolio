@@ -1,8 +1,20 @@
 import { motion, useReducedMotion } from 'framer-motion'
-import { CircuitBoard, GraduationCap, UsersRound } from 'lucide-react'
+import { CircuitBoard, Clock3, GraduationCap, UsersRound } from 'lucide-react'
 import { useLanguage } from '@/hooks/use-language'
 import { SECTION_CONTAINER_CLASS } from '@/lib/utils'
 import './education.css'
+
+function StudyStatus() {
+  const { language } = useLanguage()
+  const label = language === 'ru' ? 'Обучение продолжается' : 'Studies in progress'
+
+  return (
+    <span className="education-study-status" role="img" aria-label={label} tabIndex={0}>
+      <Clock3 size={15} strokeWidth={1.6} aria-hidden="true" />
+      <span className="education-status-tooltip" aria-hidden="true">{label}</span>
+    </span>
+  )
+}
 
 export function Education() {
   const { language } = useLanguage()
@@ -31,7 +43,7 @@ export function Education() {
             </div>
             <div className="education-institution">
               <p>{ru ? 'РАНХиГС' : 'RANEPA'}</p>
-              <span>{ru ? 'Бакалавриат' : 'Bachelor’s programme'}</span>
+              <div className="education-degree"><span>{ru ? 'Бакалавриат' : 'Bachelor’s programme'}</span><StudyStatus /></div>
             </div>
             <h3 id="education-primary-title">{ru ? 'Стратегическое управление компанией' : 'Strategic company management'}</h3>
             <p className="education-topics">{ru ? 'Стратегия · управление · бизнес-процессы · аналитика' : 'Strategy · management · business processes · analytics'}</p>
@@ -41,6 +53,7 @@ export function Education() {
             <div className="education-module-label">
               <CircuitBoard size={23} strokeWidth={1.4} aria-hidden="true" />
               <p className="education-eyebrow">02 / {ru ? 'МАЙНОР' : 'MINOR'}</p>
+              <StudyStatus />
             </div>
             <h3 id="education-minor-title">{ru
               ? 'Цифровизация и инструменты искусственного интеллекта в управлении компанией'

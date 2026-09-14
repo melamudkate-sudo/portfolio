@@ -67,7 +67,7 @@
 /* A single title scale for all six cases and the epilogue. */
 #case-stage h3 {font-size:36px;line-height:1.08;font-weight:500;letter-spacing:-.035em;text-wrap:balance;}
 @media(max-width:639px){#case-stage h3{font-size:32px;}}
-/* Match the established section-heading scale (How I work). */
+/* Keep the Cases heading on the shared large section-heading scale. */
 #cases-title{font-size:48px;font-weight:500;line-height:1;letter-spacing:-.045em;margin:0;}
 @media(min-width:640px){#cases-title{font-size:60px;}}
 @media(min-width:1024px){#cases-title{font-size:72px;}}

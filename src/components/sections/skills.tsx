@@ -42,7 +42,7 @@ export function Skills() {
   return <section id="skills" aria-labelledby="expertise-title" className="expertise-section">
     <div className={SECTION_CONTAINER_CLASS}>
       <motion.header className="expertise-header" {...entrance}>
-        <div><p className="expertise-kicker">04 / {ru ? 'ПРОФЕССИОНАЛЬНЫЙ ПРОФИЛЬ' : 'PROFESSIONAL PROFILE'}</p><h2 id="expertise-title">{ru ? 'Экспертиза' : 'Expertise'}<span aria-hidden="true">.</span></h2></div>
+        <div><p className="expertise-kicker">03 / {ru ? 'ПРОФЕССИОНАЛЬНЫЙ ПРОФИЛЬ' : 'PROFESSIONAL PROFILE'}</p><h2 id="expertise-title">{ru ? 'Экспертиза' : 'Expertise'}<span aria-hidden="true">.</span></h2></div>
         <p className="expertise-lead">{ru ? 'Проектирую процессы, управляю реализацией, выстраиваю аналитику и автоматизацию.' : 'Designing processes, managing delivery, and building analytics and automation.'}</p>
       </motion.header>
       <motion.div className="expertise-management" {...entrance}>

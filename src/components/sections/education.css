@@ -68,7 +68,7 @@
   font-weight: 500;
   letter-spacing: .015em;
 }
-.education-institution > span {
+.education-degree > span:first-child {
   padding: 4px 9px;
   border: 1px solid var(--color-border);
   border-radius: 99px;
@@ -166,4 +166,59 @@
     animation: none !important;
     transition: none !important;
   }
+}
+
+.education-degree {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.education-study-status {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border: 1px solid color-mix(in oklab, var(--color-primary) 25%, transparent);
+  border-radius: 50%;
+  background: color-mix(in oklab, var(--color-primary) 6%, transparent);
+  color: var(--color-primary);
+  cursor: help;
+}
+.education-status-tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  z-index: 2;
+  width: max-content;
+  max-width: 180px;
+  padding: 7px 10px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: var(--color-card);
+  color: var(--color-foreground);
+  font-size: 11px;
+  line-height: 1.4;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-align: center;
+  transform: translateX(-50%);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.education-study-status:hover .education-status-tooltip,
+.education-study-status:focus .education-status-tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+.education-study-status:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+}
+.education-degree .education-status-tooltip {
+  left: auto;
+  right: 0;
+  transform: none;
 }

@@ -15,11 +15,10 @@ const NAME = {
 
 const LINKS = [
   { href: '#about', num: '01', ru: 'Обо мне', en: 'About' },
-  { href: '#approach', num: '02', ru: 'Как работаю', en: 'Approach' },
-  { href: '#work', num: '03', ru: 'Кейсы', en: 'Cases' },
-  { href: '#skills', num: '04', ru: 'Экспертиза', en: 'Expertise' },
-  { href: '#experience', num: '05', ru: 'Опыт', en: 'Experience' },
-  { href: '#contact', num: '06', ru: 'Контакты', en: 'Contacts' },
+  { href: '#work', num: '02', ru: 'Кейсы', en: 'Cases' },
+  { href: '#skills', num: '03', ru: 'Экспертиза', en: 'Expertise' },
+  { href: '#experience', num: '04', ru: 'Опыт', en: 'Experience' },
+  { href: '#contact', num: '05', ru: 'Контакты', en: 'Contacts' },
 ] as const
 
 const EASE = [0.16, 1, 0.3, 1] as const

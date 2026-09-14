@@ -5,7 +5,6 @@ import { Cases } from '@/components/sections/cases'
 import { Education } from '@/components/sections/education'
 import { Experience } from '@/components/sections/experience'
 import { Hero } from '@/components/sections/hero'
-import { HowIWork } from '@/components/sections/how-i-work'
 import { Skills } from '@/components/sections/skills'
 import { useEffect } from 'react'
 
@@ -54,7 +53,6 @@ function App() {
       <main className="relative z-10 overflow-x-clip">
         <Hero />
         <About />
-        <HowIWork />
         <Cases />
         <Skills />
         <Experience />
