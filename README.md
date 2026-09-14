@@ -19,10 +19,12 @@ npm run preview
 
 ## Deploy
 
-[Сайт на GitHub Pages](https://melamudkate-sudo.github.io/portfolio/).
+[Сайт — aggesiya.ru](https://aggesiya.ru/). Хостинг — GitHub Pages.
 `.github/workflows/deploy.yml` при push в `main` или ручном запуске выполняет
 `npm ci`, `npm run build` и публикует `dist/` через GitHub Actions.
-Базовый путь `/portfolio/` задан в `vite.config.ts`.
+Базовый путь `/` задан в `vite.config.ts`: сайт работает из корня собственного домена.
+Домен указан в `public/CNAME`; canonical, Open Graph и sitemap используют `https://aggesiya.ru/`.
+При публикации через Actions привязка домена также должна быть установлена в Settings → Pages репозитория.
 Пути к `public/` в React используют `import.meta.env.BASE_URL`.
 
 Известное ограничение: кнопка резюме ссылается на `public/resume.pdf`, которого пока нет.

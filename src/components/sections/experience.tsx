@@ -1,60 +1,108 @@
-import { ArrowUpRight } from 'lucide-react'
-
-import { FadeIn } from '@/components/motion/fade-in'
+import { motion, useReducedMotion } from 'framer-motion'
+import { ArrowRight, FolderTree, Route, Scale, Users } from 'lucide-react'
 import { useLanguage } from '@/hooks/use-language'
-import { cn, SECTION_CONTAINER_CLASS } from '@/lib/utils'
+import { SECTION_CONTAINER_CLASS } from '@/lib/utils'
+import './experience.css'
 
-const MILESTONES = [
+const PREPARATION = [
   {
-    date: { ru: 'Старт', en: 'Start' },
-    title: { ru: 'Бизнес-ассистент отдела дизайна и контента', en: 'Business assistant, design & content team' },
-    detail: { ru: 'Погружение в процессы, людей и реальные рабочие сценарии.', en: 'Learning the processes, people, and real work scenarios.' },
+    Icon: Scale,
+    title: { ru: 'Бизнес-модель запуска', en: 'Launch business model' },
+    text: {
+      ru: 'Модель с минимальными постоянными затратами и подключением необходимых специалистов под фактический объём работ.',
+      en: 'A model with minimal fixed costs, bringing in the specialists needed for the actual workload.',
+    },
   },
   {
-    date: { ru: 'Рост роли', en: 'Role growth' },
-    title: { ru: 'Проекты, процессы и внутренние инструменты', en: 'Projects, processes, and internal tools' },
-    detail: { ru: 'Управление ресурсами, кросс-функциональными задачами и операционными изменениями.', en: 'Managing resources, cross-functional work, and operational change.' },
+    Icon: Route,
+    title: { ru: 'Операционная структура', en: 'Operating structure' },
+    text: {
+      ru: 'Roadmap, процессы, регламенты и внутренняя документация.',
+      en: 'Roadmap, processes, procedures and internal documentation.',
+    },
   },
   {
-    date: { ru: 'Сейчас', en: 'Today' },
-    title: { ru: 'Project & Operations Manager', en: 'Project & Operations Manager' },
-    detail: { ru: 'Веду несколько инициатив параллельно и продолжаю развивать продуктовую аналитику и стратегическое управление.', en: 'Running several initiatives in parallel while developing product analytics and strategic management skills.' },
+    Icon: Users,
+    title: { ru: 'Формирование команды', en: 'Team formation' },
+    text: {
+      ru: 'Поиск кандидатов, первичные собеседования и участие в подборе команды.',
+      en: 'Candidate sourcing, initial interviews and participation in team selection.',
+    },
+  },
+  {
+    Icon: FolderTree,
+    title: { ru: 'Инфраструктура запуска', en: 'Launch infrastructure' },
+    text: {
+      ru: 'Реестр специалистов и партнёров и структура дальнейшего взаимодействия.',
+      en: 'A directory of specialists and partners, and a structure for ongoing collaboration.',
+    },
   },
 ] as const
 
 export function Experience() {
   const { language } = useLanguage()
+  const ru = language === 'ru'
+  const reduced = useReducedMotion()
+  const reveal = {
+    initial: reduced ? false as const : { opacity: 0, y: 12 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, amount: 0.12 },
+    transition: { duration: reduced ? 0 : 0.45 },
+  }
 
   return (
-    <section id="experience" className="relative z-[60] -mt-8 isolate overflow-hidden rounded-t-[3rem] border-y border-border/60 bg-background py-24 sm:py-28">
-      <span aria-hidden="true" className="pointer-events-none absolute left-1/2 top-4 -translate-x-1/2 select-none font-heading text-[10rem] leading-none text-foreground/[0.035] sm:text-[clamp(12rem,25vw,27rem)]">05</span>
-      <div className={cn('relative', SECTION_CONTAINER_CLASS)}>
-        <FadeIn className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <div className="max-w-xl">
-            <h2 className="text-balance text-5xl font-medium tracking-[-0.045em] text-foreground sm:text-6xl lg:text-7xl">
-              <span>{language === 'ru' ? 'Опыт и ' : 'Experience and '}</span>
-              <span className="font-heading text-[1.16em] text-primary">{language === 'ru' ? 'рост роли' : 'role growth'}</span>
-            </h2>
+    <section id="experience" className="experience-section" aria-labelledby="experience-title">
+      <div className={SECTION_CONTAINER_CLASS}>
+        <motion.header className="experience-heading" {...reveal}>
+          <div>
+            <p className="experience-eyebrow">05 / {ru ? 'ПРОФЕССИОНАЛЬНАЯ ТРАЕКТОРИЯ' : 'PROFESSIONAL PATH'}</p>
+            <h2 id="experience-title">{ru ? 'Опыт' : 'Experience'}<span aria-hidden="true">.</span></h2>
           </div>
-          <p className="max-w-sm text-sm leading-relaxed text-muted-foreground">
-            {language === 'ru' ? 'Не длинная хронология, а три точки, которые объясняют траекторию.' : 'Not a long timeline, but three points that explain the trajectory.'}
+          <p className="experience-path" aria-label={ru ? 'RAVENSOFT: подготовка запуска. DEMIAND: развитие работающей системы.' : 'RAVENSOFT: launch preparation. DEMIAND: developing established operations.'}>
+            <span><small>RAVENSOFT</small>BUILD</span>
+            <ArrowRight size={24} strokeWidth={1.3} aria-hidden="true" />
+            <span className="experience-path-current"><small>DEMIAND</small>SCALE</span>
           </p>
-        </FadeIn>
+        </motion.header>
 
-        <div className="relative mt-14 grid gap-8 md:grid-cols-3 md:gap-6">
-          <div aria-hidden="true" className="absolute left-[16%] right-[16%] top-3 hidden h-px bg-border md:block" />
-          {MILESTONES.map((milestone, index) => (
-            <FadeIn key={milestone.date.ru} delay={index * 0.1} className="relative">
-              <span className="mb-6 flex size-7 items-center justify-center rounded-full border border-primary/50 bg-background text-[11px] font-semibold text-primary">
-                0{index + 1}
-              </span>
-              <p className="text-xs font-medium uppercase tracking-[0.15em] text-primary">{milestone.date[language]}</p>
-              <h3 className="mt-3 max-w-xs text-xl font-medium tracking-tight text-foreground">{milestone.title[language]}</h3>
-              <p className="mt-3 max-w-sm text-sm leading-relaxed text-muted-foreground">{milestone.detail[language]}</p>
-              {index === MILESTONES.length - 1 && <ArrowUpRight aria-hidden="true" className="mt-5 size-5 text-primary" />}
-            </FadeIn>
-          ))}
-        </div>
+        <motion.article className="experience-demiand" aria-labelledby="demiand-title" {...reveal}>
+          <div className="experience-demiand-identity">
+            <p className="experience-eyebrow">{ru ? 'РАЗВИТИЕ РАБОТАЮЩЕЙ СИСТЕМЫ' : 'DEVELOPING ESTABLISHED OPERATIONS'}</p>
+            <h3 id="demiand-title">DEMIAND</h3>
+            <p className="experience-role">{ru ? 'Бизнес-ассистент отдела креаторов' : 'Business Assistant, Creators Department'}</p>
+            <p className="experience-focus">{ru ? 'Фокус: управление проектами и операционными процессами' : 'Focus: project and operations management'}</p>
+          </div>
+          <div className="experience-demiand-context">
+            <p>{ru
+              ? 'Координирую проекты на стыке продукта, контента, дизайна и производства. Управляю сроками, зависимостями и загрузкой, проектирую процессы и автоматизации, участвую в продуктовых и коммерческих инициативах.'
+              : 'I coordinate projects across product, content, design and production. I manage timelines, dependencies and workload, design processes and automations, and contribute to product and commercial initiatives.'}</p>
+          </div>
+        </motion.article>
+
+        <motion.article className="experience-ravensoft" aria-labelledby="ravensoft-title" {...reveal}>
+          <div className="experience-ravensoft-context">
+            <p className="experience-eyebrow">{ru ? 'ПОДГОТОВКА ЗАПУСКА' : 'PREPARING FOR LAUNCH'}</p>
+            <div className="experience-ravensoft-name"><h3 id="ravensoft-title">RAVENSOFT</h3><span>{ru ? '6 месяцев' : '6 months'}</span></div>
+            <p className="experience-role">{ru
+              ? 'Проектная работа — развитие и операционная подготовка early-stage стартапа'
+              : 'Project engagement — development and operational preparation of an early-stage startup'}</p>
+            <p className="experience-ravensoft-summary">{ru
+              ? 'Подключилась к проекту на ранней стадии и взяла на себя значительную часть операционной подготовки запуска: участвовала в разработке бизнес-модели, проектировала базовую структуру работы и процессы, участвовала в формировании команды и подготовке инфраструктуры проекта.'
+              : 'I joined the project at an early stage and took on a substantial part of its operational launch preparation: contributing to the business model, designing the basic operating structure and processes, and helping build the team and prepare the project infrastructure.'}</p>
+          </div>
+          <ul className="experience-preparation" aria-label={ru ? 'Направления работы в RAVENSOFT' : 'Areas of work at RAVENSOFT'}>
+            {PREPARATION.map(({ Icon, title, text }) => (
+              <li key={title.en}>
+                <Icon size={21} strokeWidth={1.4} aria-hidden="true" />
+                <h4>{title[language]}</h4>
+                <p>{text[language]}</p>
+              </li>
+            ))}
+          </ul>
+          <p className="experience-project-outcome">{ru
+            ? 'Проект был подготовлен к следующей стадии запуска, однако дальнейшая реализация была остановлена после отмены запланированного финансирования.'
+            : 'The project was prepared for the next launch stage, but further implementation stopped after the planned funding was cancelled.'}</p>
+        </motion.article>
       </div>
     </section>
   )

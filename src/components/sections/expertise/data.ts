@@ -23,14 +23,14 @@ export const analysis: Competency[] = [
   { title: copy('Продуктовые задачи', 'Product work'), level: 'confident', scope: copy('MVP · пользовательские сценарии · роли · требования · внедрение', 'MVP · user scenarios · roles · requirements · implementation') },
   { title: copy('Бюджеты и коммерческие предложения', 'Budgets and commercial proposals'), level: 'confident', scope: copy('Бюджеты · КП · сравнение вариантов · платежи · коммерческий отбор', 'Budgets · proposals · option comparison · payments · commercial selection') },
 ]
-export type Tool = { name: string; level: Level; logo?: string; mono?: boolean; symbol?: 'database' }
+export type Tool = { name: string; level: Level; logo?: string; mono?: boolean }
 export const toolGroups: { id: string; title: Copy; tools: Tool[] }[] = [
   { id: 'projects', title: copy('Проекты и процессы', 'Projects and processes'), tools: [
     { name: 'Bitrix24', level: 'advanced', logo: 'bitrix24.svg' }, { name: 'Buildin', level: 'advanced', logo: 'buildin.png', mono: true },
     { name: 'YouGile', level: 'confident', logo: 'yougile.png' }, { name: 'Miro', level: 'confident', logo: 'miro.svg', mono: true },
   ] },
   { id: 'data', title: copy('Таблицы и данные', 'Spreadsheets and data'), tools: [
-    { name: 'Google Sheets', level: 'high', logo: 'google-sheets.svg' }, { name: 'Excel', level: 'advanced', logo: 'microsoft-excel.svg' }, { name: 'SQL', level: 'developing', symbol: 'database' },
+    { name: 'Google Sheets', level: 'high', logo: 'google-sheets.svg' }, { name: 'Excel', level: 'advanced', logo: 'microsoft-excel.svg' }, { name: 'SQL', level: 'developing' },
   ] },
   { id: 'documents', title: copy('Документы и презентации', 'Documents and presentations'), tools: [
     { name: 'Google Workspace', level: 'advanced', logo: 'workspace.png' }, { name: 'PowerPoint', level: 'advanced', logo: 'microsoft-powerpoint.svg' },

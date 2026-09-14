@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
-import { ArrowDown, ArrowRight, Blocks, Bot, ChartNoAxesCombined, ClipboardList, Database, FileCheck2, GitBranch, Layers3, ListChecks, Network, Route, Scale, ScanLine, Settings2, SlidersHorizontal, Users, Wallet } from 'lucide-react'
+import { ArrowDown, ArrowRight, Blocks, Bot, ChartNoAxesCombined, ClipboardList, Database, FileCheck2, GitBranch, Layers3, Network, Route, ScanLine, Settings2, SlidersHorizontal, Users, Wallet } from 'lucide-react'
 import { useLanguage } from '@/hooks/use-language'
 import { SECTION_CONTAINER_CLASS } from '@/lib/utils'
 import { analysis, levels, management, toolGroups, type Competency, type Level, type Tool } from './expertise/data'
+import { DecisionModel } from './expertise/decision-model'
 import './expertise/expertise.css'
 
 const managementIcons = [ClipboardList, Route, SlidersHorizontal, Network, Users, FileCheck2]
@@ -50,11 +51,7 @@ export function Skills() {
       </motion.div>
       <motion.div className="expertise-analysis" {...entrance}>
         <div className="expertise-analysis-intro"><div className="expertise-band-heading"><span className="expertise-index" aria-hidden="true">02</span><p className="expertise-kicker">{ru ? 'АНАЛИТИЧЕСКИЙ СЛОЙ' : 'ANALYTICAL PRACTICE'}</p></div><h3>{ru ? 'Аналитика, автоматизация и продуктовые задачи' : 'Analytics, automation and product work'}</h3>
-          <div className="expertise-model" aria-label={ru ? 'От данных через модель к решению' : 'From data through a model to a decision'}>
-            <div><Database size={22} aria-hidden="true" /><span>{ru ? 'Данные' : 'Data'}</span><small>{ru ? 'Исследование и вводные' : 'Research and inputs'}</small></div><ArrowDown className="expertise-model-arrow" size={20} aria-hidden="true" />
-            <div className="expertise-model-core"><Scale size={27} aria-hidden="true" /><span>{ru ? 'Модель' : 'Model'}</span><small>{ru ? 'Факторы · логика · сценарии' : 'Factors · logic · scenarios'}</small></div><ArrowDown className="expertise-model-arrow" size={20} aria-hidden="true" />
-            <div><ListChecks size={22} aria-hidden="true" /><span>{ru ? 'Решение' : 'Decision'}</span><small>{ru ? 'Требования и реализация' : 'Requirements and implementation'}</small></div>
-          </div>
+          <DecisionModel />
         </div>
         <ol className="expertise-analysis-list">{analysis.map((item, index) => <CompetencyRow key={index} item={item} index={index} analytical />)}</ol>
       </motion.div>

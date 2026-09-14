@@ -1,55 +1,66 @@
-import { GraduationCap, LineChart } from 'lucide-react'
-
-import { FadeIn } from '@/components/motion/fade-in'
+import { motion, useReducedMotion } from 'framer-motion'
+import { CircuitBoard, GraduationCap, UsersRound } from 'lucide-react'
 import { useLanguage } from '@/hooks/use-language'
-import { cn, SECTION_CONTAINER_CLASS } from '@/lib/utils'
-
-const EDUCATION = [
-  {
-    title: { ru: 'Стратегическое управление компанией', en: 'Strategic company management' },
-    institution: { ru: 'РАНХиГС при Президенте РФ', en: 'RANEPA' },
-    status: { ru: 'Обучение продолжается', en: 'In progress' },
-    Icon: GraduationCap,
-  },
-  {
-    title: { ru: 'Продуктовый аналитик', en: 'Product analytics' },
-    institution: { ru: 'Яндекс Практикум', en: 'Yandex Practicum' },
-    status: { ru: 'Обучение продолжается', en: 'In progress' },
-    Icon: LineChart,
-  },
-] as const
+import { SECTION_CONTAINER_CLASS } from '@/lib/utils'
+import './education.css'
 
 export function Education() {
   const { language } = useLanguage()
+  const ru = language === 'ru'
+  const reduced = useReducedMotion()
+  const reveal = {
+    initial: reduced ? false as const : { opacity: 0, y: 8 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, amount: 0.12 },
+    transition: { duration: reduced ? 0 : 0.35 },
+  }
 
   return (
-    <section className="relative z-[70] -mt-8 isolate overflow-hidden rounded-t-[3rem] bg-[color-mix(in_oklab,var(--color-muted)_20%,var(--color-background))] py-24 sm:py-32">
-      <div className={cn('relative', SECTION_CONTAINER_CLASS)}>
-        <FadeIn className="max-w-2xl">
-          <p className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground/50">{language === 'ru' ? 'Обучение' : 'Learning'}</p>
-          <h2 className="mt-4 text-balance text-5xl font-medium tracking-[-0.045em] text-foreground sm:text-6xl lg:text-7xl">
-            <span>{language === 'ru' ? 'Продолжаю ' : 'Always '}</span>
-            <span className="font-heading text-[1.16em] text-primary">{language === 'ru' ? 'учиться' : 'learning'}</span>
-          </h2>
-          <p className="mt-5 text-lg leading-relaxed text-muted-foreground">
-            {language === 'ru' ? 'Углубляю стратегическое и продуктово-аналитическое мышление параллельно с операционной практикой.' : 'Building strategic and product-analytics thinking alongside operational practice.'}
-          </p>
-        </FadeIn>
+    <section id="education" className="education-section" aria-labelledby="education-title">
+      <div className={SECTION_CONTAINER_CLASS}>
+        <motion.header className="education-heading" {...reveal}>
+          <p className="education-eyebrow">{ru ? 'ОБРАЗОВАНИЕ И ПРОФЕССИОНАЛЬНОЕ РАЗВИТИЕ' : 'EDUCATION AND PROFESSIONAL DEVELOPMENT'}</p>
+          <h2 id="education-title">{ru ? 'Образование' : 'Education'}<span aria-hidden="true">.</span></h2>
+        </motion.header>
 
-        <div className="mt-14 grid gap-4 md:grid-cols-2">
-          {EDUCATION.map(({ title, institution, status, Icon }, index) => (
-            <FadeIn key={title.ru} delay={index * 0.1}>
-              <article className="flex min-h-64 flex-col rounded-3xl border border-border bg-card p-7 shadow-sm shadow-black/10">
-                <div className="flex size-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
-                  <Icon aria-hidden="true" className="size-6" strokeWidth={1.5} />
-                </div>
-                <h3 className="mt-10 text-2xl font-medium tracking-tight text-foreground">{title[language]}</h3>
-                <p className="mt-2 text-sm text-muted-foreground">{institution[language]}</p>
-                <p className="mt-auto pt-8 text-xs font-medium uppercase tracking-[0.14em] text-primary">{status[language]}</p>
-              </article>
-            </FadeIn>
-          ))}
-        </div>
+        <motion.div className="education-study" {...reveal}>
+          <article className="education-primary" aria-labelledby="education-primary-title">
+            <div className="education-module-label">
+              <span className="education-icon" aria-hidden="true"><GraduationCap size={25} strokeWidth={1.4} /></span>
+              <p className="education-eyebrow">01 / {ru ? 'ОСНОВНОЕ ОБРАЗОВАНИЕ' : 'MAIN PROGRAMME'}</p>
+            </div>
+            <div className="education-institution">
+              <p>{ru ? 'РАНХиГС' : 'RANEPA'}</p>
+              <span>{ru ? 'Бакалавриат' : 'Bachelor’s programme'}</span>
+            </div>
+            <h3 id="education-primary-title">{ru ? 'Стратегическое управление компанией' : 'Strategic company management'}</h3>
+            <p className="education-topics">{ru ? 'Стратегия · управление · бизнес-процессы · аналитика' : 'Strategy · management · business processes · analytics'}</p>
+          </article>
+
+          <article className="education-minor" aria-labelledby="education-minor-title">
+            <div className="education-module-label">
+              <CircuitBoard size={23} strokeWidth={1.4} aria-hidden="true" />
+              <p className="education-eyebrow">02 / {ru ? 'МАЙНОР' : 'MINOR'}</p>
+            </div>
+            <h3 id="education-minor-title">{ru
+              ? 'Цифровизация и инструменты искусственного интеллекта в управлении компанией'
+              : 'Digitalisation and artificial intelligence tools in company management'}</h3>
+            <p className="education-topics">{ru
+              ? 'Цифровизация бизнес-процессов · применение ИИ в управлении · автоматизация'
+              : 'Business process digitalisation · AI in management · automation'}</p>
+          </article>
+        </motion.div>
+
+        <motion.article className="education-community" aria-labelledby="education-community-title" {...reveal}>
+          <UsersRound size={23} strokeWidth={1.4} aria-hidden="true" />
+          <div className="education-community-heading">
+            <p className="education-eyebrow">03 / {ru ? 'ПРОФЕССИОНАЛЬНАЯ АКТИВНОСТЬ' : 'PROFESSIONAL ENGAGEMENT'}</p>
+            <h3 id="education-community-title">{ru ? 'Профильные мероприятия и нетворкинг' : 'Industry events and networking'}</h3>
+          </div>
+          <p className="education-community-copy">{ru
+            ? 'Посещаю профильные мероприятия, митапы и конференции по управлению проектами, продуктами и операционными процессами, развиваю профессиональные связи и слежу за практиками рынка.'
+            : 'I attend industry events, meetups and conferences on project, product and operations management, build professional connections and keep up with industry practices.'}</p>
+        </motion.article>
       </div>
     </section>
   )

@@ -1,0 +1,218 @@
+.experience-section {
+  position: relative;
+  z-index: 60;
+  isolation: isolate;
+  overflow: hidden;
+  margin-top: -2rem;
+  padding: 72px 0 80px;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  border-radius: 3rem 3rem 0 0;
+  background: var(--color-background);
+  color: var(--color-foreground);
+  scroll-margin-top: 64px;
+}
+.experience-section * { min-width: 0; }
+.experience-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 32px;
+  margin-bottom: 34px;
+}
+.experience-eyebrow {
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: .14em;
+  color: var(--color-primary);
+}
+.experience-heading h2 {
+  margin-top: 12px;
+  font-size: 72px;
+  line-height: 1.08;
+  letter-spacing: -.045em;
+  font-weight: 500;
+}
+.experience-heading h2 > span { color: var(--color-primary); }
+.experience-path {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  padding-bottom: 5px;
+  color: var(--color-muted-foreground);
+}
+.experience-path > span {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: -.025em;
+}
+.experience-path small {
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: .12em;
+}
+.experience-path > svg { opacity: .6; }
+.experience-path .experience-path-current { color: var(--color-primary); }
+.experience-demiand {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  padding: 34px;
+  border: 1px solid color-mix(in oklab, var(--color-primary) 23%, var(--color-border));
+  border-radius: 24px;
+  background: linear-gradient(115deg, color-mix(in oklab, var(--color-primary) 7%, var(--color-card)), var(--color-card) 80%);
+}
+.experience-demiand h3 {
+  margin: 17px 0 12px;
+  font-size: 48px;
+  line-height: 1;
+  font-weight: 500;
+  letter-spacing: -.045em;
+}
+.experience-role {
+  font-size: 21px;
+  line-height: 1.4;
+  font-weight: 500;
+  letter-spacing: -.025em;
+  text-wrap: pretty;
+}
+.experience-focus {
+  max-width: 410px;
+  margin-top: 14px;
+  color: var(--color-primary);
+  font-size: 13px;
+  line-height: 1.6;
+}
+.experience-demiand-context {
+  display: flex;
+  align-items: center;
+  border-left: 1px solid color-mix(in oklab, var(--color-primary) 18%, var(--color-border));
+  padding-left: 34px;
+}
+.experience-demiand-context p {
+  font-size: 17px;
+  line-height: 1.8;
+  color: var(--color-muted-foreground);
+  text-wrap: pretty;
+}
+.experience-ravensoft {
+  display: grid;
+  grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr);
+  gap: 26px 54px;
+  padding: 36px 12px 0;
+}
+.experience-ravensoft-name {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 18px;
+  margin: 13px 0;
+}
+.experience-ravensoft h3 {
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -.035em;
+}
+.experience-ravensoft-name > span {
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--color-muted-foreground);
+  border: 1px solid var(--color-border);
+  border-radius: 99px;
+  padding: 5px 10px;
+  white-space: nowrap;
+}
+.experience-ravensoft .experience-role { font-size: 17px; line-height: 1.5; }
+.experience-ravensoft-summary {
+  margin-top: 17px;
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--color-muted-foreground);
+  text-wrap: pretty;
+}
+.experience-preparation {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px 28px;
+  list-style: none;
+}
+.experience-preparation li {
+  border-top: 1px solid var(--color-border);
+  padding-top: 16px;
+}
+.experience-preparation svg { color: var(--color-primary); opacity: .85; }
+.experience-preparation h4 {
+  margin: 12px 0 8px;
+  font-size: 17px;
+  line-height: 1.35;
+  letter-spacing: -.02em;
+  font-weight: 500;
+}
+.experience-preparation p {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--color-muted-foreground);
+  text-wrap: pretty;
+}
+.experience-project-outcome {
+  grid-column: 1 / -1;
+  padding: 15px 18px;
+  border-left: 2px solid color-mix(in oklab, var(--color-primary) 60%, transparent);
+  background: color-mix(in oklab, var(--color-foreground) 2%, transparent);
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--color-muted-foreground);
+  text-wrap: pretty;
+}
+@media (max-width: 1100px) {
+  .experience-heading h2 { font-size: 60px; }
+  .experience-demiand { gap: 28px; padding: 28px; }
+  .experience-demiand-context { padding-left: 28px; }
+  .experience-demiand h3 { font-size: 44px; }
+  .experience-ravensoft { gap: 26px 32px; padding-inline: 0; }
+  .experience-preparation { gap: 22px; }
+}
+@media (max-width: 800px) {
+  .experience-section { padding: 56px 0 64px; border-radius: 2rem 2rem 0 0; }
+  .experience-path { gap: 18px; }
+  .experience-demiand { gap: 24px; grid-template-columns: 1fr; }
+  .experience-demiand-context { border-left: 0; border-top: 1px solid var(--color-border); padding: 20px 0 0; }
+  .experience-demiand-context p { font-size: 16px; line-height: 1.7; }
+  .experience-ravensoft { grid-template-columns: 1fr; gap: 25px; }
+  .experience-ravensoft-context { max-width: 640px; }
+  .experience-ravensoft-summary { font-size: 15px; line-height: 1.7; }
+  .experience-preparation { gap: 24px 32px; }
+  .experience-preparation h4 { margin-top: 10px; }
+}
+@media (max-width: 639px) {
+  .experience-section > .mx-auto { padding-inline: 20px; }
+  .experience-heading { flex-direction: column; align-items: start; gap: 22px; margin-bottom: 26px; }
+  .experience-heading h2 { font-size: 48px; }
+  .experience-path { gap: 24px; }
+  .experience-path > span { font-size: 18px; gap: 5px; }
+  .experience-path small { font-size: 9px; }
+  .experience-eyebrow { font-size: 9px; }
+  .experience-demiand { padding: 24px 20px; gap: 20px; border-radius: 20px; }
+  .experience-demiand h3 { font-size: 40px; margin-top: 16px; }
+  .experience-role { font-size: 19px; }
+  .experience-focus { font-size: 13px; margin-top: 12px; }
+  .experience-ravensoft { padding-top: 30px; }
+  .experience-ravensoft h3 { font-size: 26px; }
+  .experience-ravensoft .experience-role { font-size: 17px; }
+  .experience-preparation { grid-template-columns: 1fr; gap: 18px; }
+  .experience-preparation li { display: grid; grid-template-columns: 22px 1fr; column-gap: 12px; }
+  .experience-preparation h4 { margin: 0; }
+  .experience-preparation p { grid-column: 2; margin-top: 8px; }
+  .experience-project-outcome { padding: 13px 15px; font-size: 13px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .experience-section *, .experience-section *::before, .experience-section *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
