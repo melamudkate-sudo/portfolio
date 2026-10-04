@@ -3,7 +3,6 @@ import { createContext, useContext } from 'react'
 export type Language = 'ru' | 'en'
 interface LanguageContextValue {
   language: Language
-  switchId: number
   setLanguage: (language: Language) => void
 }
 export const LanguageContext = createContext<LanguageContextValue | null>(null)

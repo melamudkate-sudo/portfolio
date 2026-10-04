@@ -1,240 +1,42 @@
-import { AnimatePresence, motion } from 'framer-motion'
-import type { Variants } from 'framer-motion'
-import { Menu, X } from 'lucide-react'
-import { useRef, useState } from 'react'
-
+import { motion, useScroll } from 'framer-motion'
+import { useEffect, useRef, useState } from 'react'
+import { ArrowUpRight, Menu, X } from 'lucide-react'
 import { LanguageToggle } from '@/components/language-toggle'
-import { LanguageTransition } from '@/components/motion/language-transition'
 import { useLanguage } from '@/hooks/use-language'
-import { CONTAINER_CLASS, cn } from '@/lib/utils'
-
-const NAME = {
-  ru: 'Екатерина Меламуд',
-  en: 'Ekaterina Melamud',
-} as const
 
 const LINKS = [
-  { href: '#about', num: '01', ru: 'Обо мне', en: 'About' },
-  { href: '#work', num: '02', ru: 'Проекты', en: 'Projects' },
-  { href: '#skills', num: '03', ru: 'Что я умею', en: 'Skills' },
-  { href: '#resume', num: '04', ru: 'Резюме', en: 'Résumé' },
-  { href: '#contact', num: '05', ru: 'Контакты', en: 'Contacts' },
+  { href: '#about', ru: 'Обо мне', en: 'About' },
+  { href: '#work', ru: 'Проекты', en: 'Projects' },
+  { href: '#skills', ru: 'Навыки', en: 'Skills' },
+  { href: '#resume', ru: 'Резюме', en: 'Résumé' },
 ] as const
 
-const EASE = [0.16, 1, 0.3, 1] as const
-
-// Shared keyboard-focus treatment for every interactive element in this
-// file — accent-colored, not the browser default, and only ever shown for
-// focus-visible (keyboard/programmatic focus), never on mouse click.
-const FOCUS_RING =
-  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background'
-
-interface UnderlineRect {
-  left: number
-  width: number
-}
-
-const menuVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.07, delayChildren: 0.3 },
-  },
-}
-
-const menuItemVariants: Variants = {
-  hidden: { opacity: 0, y: 16 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: EASE } },
-}
-
 export function Navbar() {
-  const { language, switchId } = useLanguage()
-  const [mobileOpen, setMobileOpen] = useState(false)
-  const [underline, setUnderline] = useState<UnderlineRect | null>(null)
-  const [hoveredHref, setHoveredHref] = useState<string | null>(null)
-  const navRef = useRef<HTMLElement>(null)
-  // Refs the label <span> specifically, not the whole link/column — the
-  // column is grid-stretched to an equal-width cell, so measuring the
-  // link itself would size the underline to the cell, not the word.
-  const labelRefs = useRef<Record<string, HTMLSpanElement | null>>({})
-
-  function handleHover(href: string) {
-    const el = labelRefs.current[href]
-    const nav = navRef.current
-    if (!el || !nav) return
-    const elRect = el.getBoundingClientRect()
-    const navRect = nav.getBoundingClientRect()
-    setUnderline({ left: elRect.left - navRect.left, width: elRect.width })
-    setHoveredHref(href)
-  }
-
-  return (
-    <>
-      <header className="site-header fixed inset-x-0 top-0 z-50 border-b border-border/60 bg-background/70 backdrop-blur-md">
-        <div className={cn('flex h-16 items-center justify-between', CONTAINER_CLASS)}>
-          <a
-            href="#top"
-            className={cn('flex items-center gap-2 rounded-md text-sm font-medium tracking-tight', FOCUS_RING)}
-          >
-            <span aria-hidden="true" className="size-1.5 rotate-45 bg-primary" />
-            <LanguageTransition id={`${language}-${switchId}`}>
-              {/*
-                Not <FadeIn>: the header is always visible, so it should
-                animate on mount directly rather than wait for a viewport
-                observer intended for scroll sections.
-              */}
-              <motion.span
-                initial="hidden"
-                animate="visible"
-                variants={menuItemVariants}
-                className="inline-block text-xs tracking-[-0.015em] leading-tight"
-              >
-                {NAME[language]}
-              </motion.span>
-            </LanguageTransition>
-          </a>
-
-          <nav
-            ref={navRef}
-            onMouseLeave={() => {
-              setUnderline(null)
-              setHoveredHref(null)
-            }}
-            className="relative hidden text-sm text-muted-foreground lg:block"
-          >
-            <LanguageTransition id={`${language}-${switchId}`}>
-              {/*
-                grid-cols-5 with equal 1fr tracks: each link sits in a
-                same-width cell regardless of word length, which is what
-                actually guarantees even rhythm — a shared gap or a
-                min-width per link (both tried before) only constrains the
-                link's own box, not the distance between cell boundaries.
-              */}
-              <motion.div
-                initial="hidden"
-                animate="visible"
-                variants={menuVariants}
-                className="flex items-center gap-x-7"
-              >
-                {LINKS.map((link) => (
-                  <motion.a
-                    key={link.href}
-                    href={link.href}
-                    variants={menuItemVariants}
-                    onMouseEnter={() => handleHover(link.href)}
-                    className={cn(
-                      'relative flex items-center rounded-md py-1 transition-colors hover:text-foreground',
-                      FOCUS_RING
-                    )}
-                  >
-                    {/*
-                      Priority flip from the previous approach: the numeral
-                      is back in normal flow, fixed-gap next to its word, so
-                      that gap is identical for every item — centering the
-                      [numeral + label] group as a whole (via mx-auto on the
-                      group, not text-align on the label) means the group's
-                      center drifts slightly off the cell's true center
-                      since the numeral's width isn't symmetric. That's the
-                      accepted trade-off, not a bug.
-                    */}
-                    <span className="inline-flex items-center gap-1.5 whitespace-nowrap">
-                      <span
-                        className={cn(
-                          'text-[10px] tabular-nums transition-colors',
-                          hoveredHref === link.href ? 'text-primary' : 'text-muted-foreground/50'
-                        )}
-                      >
-                        {link.num}
-                      </span>
-                      <span
-                        ref={(el) => {
-                          labelRefs.current[link.href] = el
-                        }}
-                      >
-                        {link[language]}
-                      </span>
-                    </span>
-                  </motion.a>
-                ))}
-              </motion.div>
-            </LanguageTransition>
-            <AnimatePresence>
-              {underline && (
-                <motion.span
-                  initial={false}
-                  animate={{ left: underline.left, width: underline.width, opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ type: 'spring', stiffness: 380, damping: 32 }}
-                  className="absolute bottom-0 h-[2px] rounded-full bg-primary"
-                />
-              )}
-            </AnimatePresence>
-          </nav>
-
-          <div className="flex items-center gap-2">
-            <LanguageToggle />
-            <button
-              type="button"
-              onClick={() => setMobileOpen((open) => !open)}
-              aria-label={language === 'ru' ? (mobileOpen ? 'Закрыть меню' : 'Открыть меню') : (mobileOpen ? 'Close menu' : 'Open menu')} aria-controls="mobile-navigation"
-              aria-expanded={mobileOpen}
-              className={cn(
-                'relative flex size-9 items-center justify-center rounded-lg text-foreground transition-colors hover:bg-muted lg:hidden',
-                FOCUS_RING
-              )}
-            >
-              <Menu
-                className={cn(
-                  'absolute size-5 transition-all duration-200',
-                  mobileOpen ? 'scale-0 opacity-0' : 'scale-100 opacity-100'
-                )}
-              />
-              <X
-                className={cn(
-                  'absolute size-5 transition-all duration-200',
-                  mobileOpen ? 'scale-100 opacity-100' : 'scale-0 opacity-0'
-                )}
-              />
-            </button>
-          </div>
-        </div>
-      </header>
-
-      {/*
-        Rendered as a sibling of <header>, not a descendant: header's
-        backdrop-blur (backdrop-filter) establishes a new containing block
-        for `position: fixed` descendants, which would confine this overlay
-        to header's own box instead of the viewport.
-      */}
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            id="mobile-navigation" role="navigation" aria-label={language === 'ru' ? 'Навигация' : 'Navigation'} key={`mobile-menu-${language}`}
-            initial="hidden"
-            animate="visible"
-            exit="hidden"
-            variants={menuVariants}
-            transition={{ duration: 0.3 }}
-            onClick={() => setMobileOpen(false)}
-            className="fixed inset-0 z-40 flex flex-col items-center justify-center gap-2 bg-background lg:hidden"
-          >
-            {LINKS.map((link) => (
-              <motion.a
-                key={link.href}
-                href={link.href}
-                variants={menuItemVariants}
-                className={cn(
-                  'flex items-center gap-3 rounded-md py-3 text-3xl font-medium tracking-tight text-foreground transition-colors hover:text-primary',
-                  FOCUS_RING
-                )}
-              >
-                <span className="text-sm tabular-nums text-primary">{link.num}</span>
-                {link[language]}
-              </motion.a>
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
-  )
+  const { language } = useLanguage()
+  const { scrollYProgress } = useScroll()
+  const [open, setOpen] = useState(false)
+  const menuButton = useRef<HTMLButtonElement>(null)
+  const menu = useRef<HTMLElement>(null)
+  const ru = language === 'ru'
+  useEffect(() => {
+    if (!open) return
+    const previous = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    menu.current?.querySelector<HTMLAnchorElement>('a')?.focus()
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') { setOpen(false); menuButton.current?.focus() }
+      if (event.key === 'Tab') {
+        const elements = [menuButton.current, ...Array.from(menu.current?.querySelectorAll<HTMLAnchorElement>('a') || [])].filter(Boolean) as HTMLElement[]
+        const first = elements[0], last = elements[elements.length - 1]
+        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus() }
+        if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus() }
+      }
+    }
+    document.addEventListener('keydown', onKey)
+    return () => { document.body.style.overflow = previous; document.removeEventListener('keydown', onKey) }
+  }, [open])
+  return <>
+    <header className="site-header"><motion.div className="reading-progress" style={{ scaleX: scrollYProgress }} aria-hidden="true" /><div className="hr-container nav-layout"><a href="#top" className="nav-brand" onClick={() => setOpen(false)}><span className="brand-mark" aria-hidden="true">м<span>.</span></span><span>{ru ? 'Екатерина Меламуд' : 'Ekaterina Melamud'}</span></a><nav className="desktop-nav" aria-label={ru ? 'Основная навигация' : 'Main navigation'}>{LINKS.map(link => <a key={link.href} href={link.href}>{link[language]}</a>)}</nav><div className="nav-actions"><LanguageToggle /><a className="nav-contact" href="#contact">{ru ? 'Написать' : 'Say hello'}<ArrowUpRight size={16} aria-hidden="true" /></a><button ref={menuButton} className="menu-toggle" type="button" aria-controls="mobile-navigation" aria-expanded={open} aria-label={ru ? (open ? 'Закрыть меню' : 'Открыть меню') : (open ? 'Close menu' : 'Open menu')} onClick={() => setOpen(!open)}>{open ? <X size={22} /> : <Menu size={22} />}</button></div></div></header>
+    {open && <nav ref={menu} id="mobile-navigation" className="mobile-navigation" aria-label={ru ? 'Навигация' : 'Navigation'}>{[...LINKS, { href: '#contact', ru: 'Контакты', en: 'Contacts' }].map((link, i) => <a href={link.href} key={link.href} onClick={() => setOpen(false)}><span>0{i + 1}</span>{link[language]}<ArrowUpRight size={24} /></a>)}</nav>}
+  </>
 }

@@ -1,6 +1,6 @@
 # Портфолио Екатерины Меламуд
 
-Персональный сайт Project & Operations Manager, RU/EN.
+Персональное портфолио Project & Operations, RU/EN.
 Стек: React, TypeScript, Vite, Tailwind CSS, Framer Motion, Lucide.
 
 ## Локальная работа
@@ -31,14 +31,14 @@ npm run preview
 
 Добавьте утверждённый PDF в `public/resume.pdf` и перезапустите dev-сервер или выполните новую сборку. Наличие файла проверяется в Vite: кнопки автоматически начнут открывать PDF в новой вкладке. Пока файла нет, первый экран ведёт к блоку резюме с честным статусом и ссылкой для связи. Внешнюю ссылку можно задать через `VITE_RESUME_URL`. Подпись актуальности рассчитана на резюме за октябрь 2026; при замене обновите её в `src/components/sections/next.tsx`.
 
-Четыре кейса и тексты RU/EN: `src/components/sections/cases/data.ts`. Графические рабочие материалы: `src/components/sections/cases/evidence.tsx`. Все демонстрации — явно подписанные реконструкции с тестовыми данными; показатели масштаба в production-кейсе предоставлены Екатериной.
+Четыре кейса и тексты RU/EN: `src/components/sections/cases/data.ts`. Графические рабочие материалы: `src/components/sections/cases/evidence.tsx`. Графические материалы — реконструкции с обезличенными данными; пояснение сохранено для скринридеров. Показатели масштаба в production-кейсе предоставлены Екатериной.
 
 ## Структура
 
 - `src/components/` — секции, layout, UI и используемые анимации.
 - `src/hooks/`, `src/lib/` — язык интерфейса и общие утилиты.
 - `src/App.tsx`, `src/main.tsx`, `src/index.css` — приложение, точка входа, стили.
-- `public/` — используемые фото, шрифт, favicon и OG-изображение.
+- `public/` — используемые фото, favicon и OG-изображение.
 - `.github/workflows/` — deploy; корневые конфиги — Vite, TypeScript и Oxlint.
 - `AGENTS.md` — постоянные правила; `CONTENT.md` — дополнительные факты для будущей работы с контентом.
 

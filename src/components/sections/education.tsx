@@ -32,7 +32,7 @@ export function Education() {
       <div className={SECTION_CONTAINER_CLASS}>
         <motion.header className="education-heading" {...reveal}>
           <p className="education-eyebrow">{ru ? 'ОБРАЗОВАНИЕ И ПРОФЕССИОНАЛЬНОЕ РАЗВИТИЕ' : 'EDUCATION AND PROFESSIONAL DEVELOPMENT'}</p>
-          <h2 id="education-title">{ru ? 'Образование' : 'Education'}<span aria-hidden="true">.</span></h2>
+          <h2 id="education-title">{ru ? 'Образование' : 'Education'}</h2>
         </motion.header>
 
         <motion.div className="education-study" {...reveal}>

@@ -1,5 +1,8 @@
+import { Layers, Workflow, Route, Gauge, WandSparkles, ChartNoAxesCombined, ShoppingBag, Settings2, Check } from 'lucide-react'
+import { Reveal } from '@/components/motion/reveal'
 import { useLanguage } from '@/hooks/use-language'
 
+const SKILL_ICONS = [Layers, Workflow, Route, Gauge, WandSparkles, ChartNoAxesCombined, ShoppingBag]
 const SKILLS = [
   { title: 'Project Management', ru: 'Декомпозиция, планирование, сроки, зависимости и приоритизация. Управление несколькими потоками, координация участников, проектная документация и контроль исполнения.', en: 'Task breakdown, planning, timelines, dependencies and prioritisation. Managing parallel streams, coordinating contributors, project documentation and delivery tracking.' },
   { title: 'Agile / Scrum', ru: 'Sprint Planning, Daily, Retrospective, Backlog и Sprint Backlog. Декомпозиция и работа с командой. Опыт выполнения функций Scrum Master и фасилитации.', en: 'Sprint Planning, Daily, Retrospective, Backlog and Sprint Backlog. Task breakdown and teamwork. Experience performing Scrum Master duties and facilitating the team.' },
@@ -14,8 +17,8 @@ export function Skills() {
   const { language } = useLanguage()
   const ru = language === 'ru'
   return <section id="skills" className="hr-section" aria-labelledby="skills-title"><div className="hr-container">
-    <header className="hr-section-header"><p className="hr-eyebrow">03 / {ru ? 'Навыки' : 'Skills'}</p><h2 id="skills-title">{ru ? 'Что я умею' : 'What I can do'}</h2></header>
-    <div className="hr-skills-grid">{SKILLS.map((skill, i) => <article key={skill.title}><span className="hr-skill-number">0{i + 1}</span><h3>{skill.title}</h3><p>{skill[language]}</p></article>)}</div>
+    <header className="hr-section-header"><p className="hr-eyebrow">03 / {ru ? 'Навыки' : 'Skills'}</p><h2 id="skills-title"><span className="section-icon"><Check size={25} aria-hidden="true" /></span>{ru ? 'Что я умею' : 'What I can do'}</h2></header>
+    <div className="hr-skills-grid">{SKILLS.map((skill, i) => { const Icon = SKILL_ICONS[i]; return <Reveal key={skill.title} delay={(i % 3) * .06}><article><span className="skill-icon"><Icon size={23} aria-hidden="true" /></span><span className="hr-skill-number">0{i + 1}</span><h3>{skill.title}</h3><ul>{skill[language].split('. ').map(line => <li key={line}>{line.replace(/\.$/, '')}</li>)}</ul></article></Reveal> })}</div>
   </div></section>
 }
 
@@ -32,5 +35,5 @@ const TOOL_GROUPS = [
 
 export function Tools() {
   const { language } = useLanguage()
-  return <section id="tools" className="hr-section hr-tools" aria-labelledby="tools-title"><div className="hr-container"><header className="hr-section-header"><h2 id="tools-title">{language === 'ru' ? 'Инструменты и подходы' : 'Tools and approaches'}</h2></header><div className="hr-tool-groups">{TOOL_GROUPS.map(group => <div key={group.title.en}><h3>{group.title[language]}</h3>{group.groups.map((row, i) => <div className="hr-tool-row" key={i}>{'label' in row && <small>{row.label[language]}</small>}<p>{row.items.join(' · ')}</p></div>)}</div>)}</div></div></section>
+  return <section id="tools" className="hr-section hr-tools" aria-labelledby="tools-title"><Reveal className="hr-container"><header className="hr-section-header"><h2 id="tools-title"><span className="section-icon"><Settings2 size={25} aria-hidden="true" /></span>{language === 'ru' ? 'Инструменты и подходы' : 'Tools and approaches'}</h2></header><div className="hr-tool-groups">{TOOL_GROUPS.map(group => <div key={group.title.en}><h3>{group.title[language]}</h3>{group.groups.map((row, i) => <div className="hr-tool-row" key={i}>{'label' in row && <small>{row.label[language]}</small>}<p>{row.items.join(' · ')}</p></div>)}</div>)}</div></Reveal></section>
 }
