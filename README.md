@@ -1,7 +1,7 @@
 # Портфолио Екатерины Меламуд
 
 Персональный сайт Project & Operations Manager, RU/EN.
-Стек: React, TypeScript, Vite, Tailwind CSS, Framer Motion, GradFlow, Radix UI, Lucide.
+Стек: React, TypeScript, Vite, Tailwind CSS, Framer Motion, Lucide.
 
 ## Локальная работа
 
@@ -27,7 +27,11 @@ npm run preview
 При публикации через Actions привязка домена также должна быть установлена в Settings → Pages репозитория.
 Пути к `public/` в React используют `import.meta.env.BASE_URL`.
 
-Известное ограничение: кнопка резюме ссылается на `public/resume.pdf`, которого пока нет.
+## Резюме и материалы проектов
+
+Добавьте утверждённый PDF в `public/resume.pdf` и перезапустите dev-сервер или выполните новую сборку. Наличие файла проверяется в Vite: кнопки автоматически начнут открывать PDF в новой вкладке. Пока файла нет, первый экран ведёт к блоку резюме с честным статусом и ссылкой для связи. Внешнюю ссылку можно задать через `VITE_RESUME_URL`. Подпись актуальности рассчитана на резюме за октябрь 2026; при замене обновите её в `src/components/sections/next.tsx`.
+
+Четыре кейса и тексты RU/EN: `src/components/sections/cases/data.ts`. Графические рабочие материалы: `src/components/sections/cases/evidence.tsx`. Все демонстрации — явно подписанные реконструкции с тестовыми данными; показатели масштаба в production-кейсе предоставлены Екатериной.
 
 ## Структура
 

@@ -15,9 +15,9 @@ const NAME = {
 
 const LINKS = [
   { href: '#about', num: '01', ru: 'Обо мне', en: 'About' },
-  { href: '#work', num: '02', ru: 'Кейсы', en: 'Cases' },
-  { href: '#skills', num: '03', ru: 'Экспертиза', en: 'Expertise' },
-  { href: '#experience', num: '04', ru: 'Опыт', en: 'Experience' },
+  { href: '#work', num: '02', ru: 'Проекты', en: 'Projects' },
+  { href: '#skills', num: '03', ru: 'Что я умею', en: 'Skills' },
+  { href: '#resume', num: '04', ru: 'Резюме', en: 'Résumé' },
   { href: '#contact', num: '05', ru: 'Контакты', en: 'Contacts' },
 ] as const
 
@@ -176,7 +176,7 @@ export function Navbar() {
             <button
               type="button"
               onClick={() => setMobileOpen((open) => !open)}
-              aria-label={mobileOpen ? 'Закрыть меню' : 'Открыть меню'}
+              aria-label={language === 'ru' ? (mobileOpen ? 'Закрыть меню' : 'Открыть меню') : (mobileOpen ? 'Close menu' : 'Open menu')} aria-controls="mobile-navigation"
               aria-expanded={mobileOpen}
               className={cn(
                 'relative flex size-9 items-center justify-center rounded-lg text-foreground transition-colors hover:bg-muted lg:hidden',
@@ -209,7 +209,7 @@ export function Navbar() {
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            key={`mobile-menu-${language}`}
+            id="mobile-navigation" role="navigation" aria-label={language === 'ru' ? 'Навигация' : 'Navigation'} key={`mobile-menu-${language}`}
             initial="hidden"
             animate="visible"
             exit="hidden"

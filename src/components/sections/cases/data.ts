@@ -1,107 +1,57 @@
-export type Copy = { ru: string; en: string }
-type Visual = 'model' | 'scenario' | 'product' | 'kpi' | 'markets' | 'tender'
-
-export type Case = {
-  number: string
-  type: Visual
-  category: Copy
-  title: Copy
-  lead: Copy
-  context: Copy
-  actions: Copy[]
-  result: Copy
-  outcomes?: Array<{
-    value: Copy
-    label: Copy
-  }>
-}
-
-export const CASES: Case[] = [
+import type { Language } from '@/hooks/use-language'
+export type Copy = Record<Language, string>
+const c = (ru: string, en: string): Copy => ({ ru, en })
+export const CASES = [
   {
-    number: '01',
-    type: 'model',
-    category: { ru: 'Операционная трансформация', en: 'Operational transformation' },
-    title: { ru: 'Перестройка операционной модели и ресурсное планирование', en: 'Rebuilding an operating model and resource planning' },
-    lead: { ru: 'Перевела решения о ресурсах с интуиции на расчётную модель.', en: 'Moved resource decisions from intuition to a calculation model.' },
-    context: { ru: 'Функции пересекались, трудоёмкость не была рассчитана, а планирование ресурсов не опиралось на единую модель.', en: 'Responsibilities overlapped, effort had not been calculated, and resource planning had no shared model.' },
-    actions: [
-      { ru: 'Собрала фактический функционал и рассчитала трудоёмкость ключевых направлений.', en: 'Mapped actual responsibilities and calculated effort across key areas.' },
-      { ru: 'Сравнила найм, подряд и баланс загрузки по стоимости, скорости и управляемости.', en: 'Compared hiring, contractors, and workload balance by cost, speed, and controllability.' },
-      { ru: 'Переработала роли, базу знаний, регламенты и цикл адаптации.', en: 'Reworked roles, knowledge base, operating rules, and onboarding.' },
+    id: 'scrum', category: 'Operations / Scrum',
+    title: c('Перестройка проектной работы отдела креаторов', 'Rebuilding project delivery in the Creators Department'),
+    context: c('Десятки задач по новым продуктам, упаковке, инструкциям, контенту, видео и локализации идут одновременно. В работе участвуют дизайнеры, редакторы, продакт и подрядчики.', 'Dozens of tasks for new products, packaging, manuals, content, video and localisation run in parallel, involving designers, editors, a product manager and contractors.'),
+    role: c('Участвовала в перестройке проектной системы отдела: собирала более управляемый способ работы команды и переносила его в Bitrix24 Scrum Pro.', 'Helped rebuild the department’s project system: designing a more manageable way of working and moving it into Bitrix24 Scrum Pro.'),
+    changes: [
+      c('Собрала структуру материнских задач и подзадач, реестр и правила работы с backlog, planned и in progress.', 'Built the parent-task and subtask structure, task register and rules for backlog, planned and in progress.'),
+      c('Внедрила двухнедельные спринты. Участвовала в planning, daily и retrospective, выполняла функции Scrum Master и фасилитировала работу команды.', 'Introduced two-week sprints. Took part in planning, daily meetings and retrospectives, performing Scrum Master duties and facilitating the team’s work.'),
+      c('Подготовила инструкции, настроила регулярные уведомления и контроль ближайших дедлайнов.', 'Wrote team instructions and set up recurring notifications and upcoming-deadline tracking.'),
     ],
-    outcomes: [
-      { value: { ru: '+20%', en: '+20%' }, label: { ru: 'объём задач', en: 'work volume' } },
-      { value: { ru: '−40%', en: '−40%' }, label: { ru: 'просроченных задач', en: 'overdue tasks' } },
-    ],
-    result: { ru: 'Появился понятный план расширения команды, а также масштабируемая система передачи знаний.', en: 'Created a clear plan for team expansion and a scalable system for knowledge transfer.' },
+    result: c('Около 150 задач в командном спринте. Задачи связаны с этапами, ответственными и спринтами. Реестр, правила и автоматические сводки дают команде общий способ планировать работу и контролировать сроки.', 'Around 150 tasks per team sprint. Tasks are linked to stages, owners and sprints. The register, working rules and automated summaries give the team a shared way to plan delivery and track deadlines.'),
+    tags: ['Bitrix24 Scrum Pro', 'Scrum', 'Sprint Planning', 'Facilitation'],
   },
   {
-    number: '02', type: 'scenario',
-    category: { ru: 'Бизнес-моделирование и запуск', en: 'Business modelling and launch planning' },
-    title: { ru: 'Своё видеопроизводство: экономика и запуск', en: 'In-house video: economics and launch planning' },
-    lead: { ru: 'Сравнила три способа производить видео и рассчитала, что нужно для своей команды.', en: 'Compared three ways to produce video and modelled what an in-house team would need.' },
-    context: { ru: 'Рост производства требовал сопоставить внешний пул затрат с моделью собственного запуска.', en: 'Production growth required comparing the external cost pool with an in-house launch model.' },
-    actions: [
-      { ru: 'Проанализировала внешний пул затрат и сравнила варианты производства.', en: 'Analysed the external cost pool and compared production options.' },
-      { ru: 'Разработала ресурсную модель, состав команды и требования к инфраструктуре.', en: 'Developed the resource model, team composition, and infrastructure requirements.' },
-      { ru: 'Проработала требования к площадке и 7 вариантов помещений.', en: 'Worked through site requirements and seven premises options.' },
+    id: 'production', category: 'Project Management / Production',
+    title: c('Система планирования контента, арт-работ и видео', 'Planning content, artwork and video production'),
+    context: c('Арт-работы новых моделей, инструкции, упаковка, кулинарные книги, рецепты, фото, видео и материалы для маркетплейсов — несколько связанных производственных потоков.', 'Artwork for new models, manuals, packaging, cookbooks, recipes, photos, video and marketplace assets form several connected production streams.'),
+    role: c('Собираю единый горизонт планирования и координирую дизайнеров, редакторов, продактов и подрядчиков.', 'Build a shared planning horizon and coordinate designers, editors, product managers and contractors.'),
+    changes: [
+      c('Связываю начало и завершение этапов, зависимости и дедлайны в общем плане.', 'Connect stage start and finish dates, dependencies and deadlines in a shared plan.'),
+      c('Отслеживаю готовность материалов, собираю регулярные управленческие сводки и выделяю риски до наступления дедлайна.', 'Track asset readiness, compile regular management summaries and flag risks before deadlines.'),
+      c('Участвую в проектировании операционной логики внутренней системы вместе с аналитиками и IT: роли, статусы, передачи результата, отчётность и интерактивный прототип.', 'Work with analysts and IT on the operating logic of an internal system: roles, statuses, handoffs, reporting and an interactive prototype.'),
     ],
-    result: { ru: 'Подготовлена модель запуска; руководство перешло к проработке инфраструктуры.', en: 'A launch model was prepared; leadership moved on to developing the infrastructure.' },
+    result: c('План объединяет несколько production streams и делает видимыми зависимости и готовность материалов. Часть логики прототипа включена в дальнейший план реализации. Мой вклад — процессы и прототипирование совместно с аналитиками и IT.', 'The plan connects several production streams and makes dependencies and asset readiness visible. Part of the prototype logic was included in the implementation plan. My contribution covered processes and prototyping alongside analysts and IT.'),
+    tags: ['Production pipeline', 'Dependencies', 'Reporting'],
   },
   {
-    number: '03',
-    type: 'product',
-    category: { ru: 'Продуктовое мышление', en: 'Product thinking' },
-    title: { ru: 'Проектирование системы управления производством', en: 'Designing a production-management system' },
-    lead: { ru: 'Проработала, кто делает работу, как передаёт её дальше и где руководитель видит задержки.', en: 'Designed how people own work, hand it over, and make delays visible to managers.' },
-    context: { ru: 'Функции обсуждались по отдельности. Нужно было связать их с тем, как люди действительно работают.', en: 'Features were being discussed in isolation. They needed to connect to how people actually work.' },
-    actions: [
-      { ru: 'Проанализировала MVP, роли и пользовательские сценарии.', en: 'Analysed the MVP, roles, and user scenarios.' },
-      { ru: 'Описала этапы, ответственных, передачи, статусы, сроки и риски.', en: 'Defined stages, owners, handoffs, statuses, deadlines, and risks.' },
-      { ru: 'Создала интерактивный прототип и представила обновлённую логику команде.', en: 'Created an interactive prototype and presented the updated logic to the team.' },
+    id: 'automation', category: 'Internal Tools / Automation',
+    title: c('Внутренние инструменты и автоматизация', 'Internal tools and automation'),
+    context: c('Расчёт доступных дней отпуска, согласования, сверки материалов и регулярные отчёты требуют повторяющихся операций.', 'Available leave calculations, approvals, asset checks and recurring reports involve repetitive work.'),
+    role: c('Проектирую и собираю инструменты под конкретный рабочий процесс — от таблицы и скрипта до dashboard и небольшого web-интерфейса.', 'Design and build tools for specific workflows, from spreadsheets and scripts to dashboards and small web interfaces.'),
+    changes: [
+      c('Собрала dashboard отпусков: расчёт доступных дней, workflow заявки и согласования, предупреждения руководителю и уведомления.', 'Built a leave dashboard with available-day calculations, a request and approval workflow, manager alerts and notifications.'),
+      c('Создала реестры, таблицы планирования и оценки трудоёмкости, регулярные сводки по дедлайнам.', 'Created registers, planning and effort-estimation spreadsheets, and recurring deadline summaries.'),
+      c('Использую Google Sheets и Apps Script для расчётов, обработки данных и автоматических сценариев; тестирую и дорабатываю логику.', 'Use Google Sheets and Apps Script for calculations, data processing and automated workflows, testing and refining the logic.'),
     ],
-    result: { ru: 'Значительную часть логики аналитики и IT включили в дальнейший план реализации.', en: 'Analysts and IT included a substantial part of the logic in the next implementation plan.' },
-  },
-
-  {
-    number: '04',
-    type: 'kpi',
-    category: { ru: 'Аналитика и мотивация', en: 'Analytics and motivation' },
-    title: { ru: 'KPI, которыми сотрудник может управлять', en: 'KPIs employees can actually influence' },
-    lead: { ru: 'Разработала оценку работы, которая отделяет вклад сотрудника от обстоятельств вне его контроля.', en: 'Designed an assessment that separates an employee’s contribution from circumstances beyond their control.' },
-    context: { ru: 'Исходные показатели были фрагментарными, плохо измеримыми и не отражали реальную работу сотрудников.', en: 'Initial metrics were fragmented, difficult to measure, and did not reflect employees’ actual work.' },
-    actions: [
-      { ru: 'Провела интервью с сотрудниками, руководителями и владельцами процессов.', en: 'Interviewed employees, leaders, and process owners.' },
-      { ru: 'Отделила показатели под контролем сотрудника от внешних факторов.', en: 'Separated employee-controlled metrics from external factors.' },
-      { ru: 'Проработала расчёты, ограничения переменной части, источники данных и автоматизацию.', en: 'Developed calculations, variable-pay constraints, data sources, and automation.' },
-    ],
-    result: { ru: 'Для двух блоков появились полноценные KPI-системы, связанные с бизнес-результатами.', en: 'Two units received full KPI systems connected to business results.' },
-  },
-
-  {
-    number: '05', type: 'markets',
-    category: { ru: 'Кросс-функциональный запуск', en: 'Cross-functional rollout' },
-    title: { ru: 'Подготовка линейки к зарубежным рынкам', en: 'Preparing a product line for international markets' },
-    lead: { ru: 'Связала работу продукта, производства, дизайна, контента и операций в общую подготовку линейки.', en: 'Connected product, production, design, content, and operations in preparing the product line.' },
-    context: { ru: 'Для нескольких SKU нужно было связать требования к материалам, локализацию и зависимости в общую картину готовности.', en: 'Multiple SKUs required a shared view of material requirements, localisation, dependencies, and readiness.' },
-    actions: [
-      { ru: 'Синхронизировала product, operations, production, design и content.', en: 'Aligned product, operations, production, design, and content.' },
-      { ru: 'Связала требования к материалам и локализацию с подготовкой нескольких SKU.', en: 'Connected material requirements and localisation to preparation across multiple SKUs.' },
-      { ru: 'Координировала зависимости и контролировала готовность линейки.', en: 'Coordinated dependencies and tracked the product line’s readiness.' },
-    ],
-    result: { ru: 'Около 10 моделей в подготовке к зарубежным рынкам — с контролем материалов, локализации и зависимостей.', en: 'Around 10 models in preparation for international markets, with materials, localisation, and dependencies tracked.' },
+    result: c('В реестре контента для 20+ товарных позиций формулы и Apps Script автоматизируют индикацию пробелов и приоритеты. Меньше ручных сверок и риска пропустить обязательный материал.', 'In a content register covering 20+ product items, formulas and Apps Script automate gap indicators and priorities, reducing manual checks and the risk of missing required assets.'),
+    tags: ['Google Sheets', 'Apps Script', 'Dashboards', 'AI'],
   },
   {
-    number: '06', type: 'tender',
-    category: { ru: 'Коммерческий отбор', en: 'Commercial selection' },
-    title: { ru: 'Тендер: от 20 компаний до обоснованного выбора', en: 'Tender: from 20 companies to an informed choice' },
-    lead: { ru: 'Организовала отбор так, чтобы сравнивать предложения компаний и результаты их тестовых работ.', en: 'Coordinated a selection process comparing companies’ proposals and test-project results.' },
-    context: { ru: 'Выбор требовал сопоставимых вводных, коммерческих предложений и результатов тестовых работ.', en: 'The selection required comparable briefs, commercial proposals, and test-project results.' },
-    actions: [
-      { ru: 'Сформировала пул, подготовила единые вводные и собрала КП.', en: 'Built the company pool, prepared a shared brief, and collected proposals.' },
-      { ru: 'Координировала коммуникацию, участвовала в переговорах и организовывала тесты.', en: 'Coordinated communications, participated in negotiations, and organised test projects.' },
-      { ru: 'Структурировала результаты и подготовила сравнительные материалы для выбора.', en: 'Structured the results and prepared comparison materials for the selection.' },
+    id: 'launch', category: 'Business Processes / Product',
+    title: c('Процесс запуска и локализации новых продуктов', 'New product launch and localisation workflow'),
+    context: c('Новая модель проходит через панель, упаковку, инструкцию, кулинарные материалы, контент, карточку товара, видео и локализацию. Этапы зависят друг от друга и требуют участия разных команд.', 'A new model moves through panel design, packaging, manuals, cooking materials, content, product listings, video and localisation. Stages depend on each other and involve several teams.'),
+    role: c('Помогаю собирать этот путь в последовательную систему задач, зависимостей и ответственных, синхронизируя product, operations, production, design и content.', 'Help turn this journey into a structured set of tasks, dependencies and owners, aligning product, operations, production, design and content.'),
+    changes: [
+      c('Фиксирую требования к материалам и точки передачи результата, отслеживаю готовность каждого этапа.', 'Capture asset requirements and handoffs, and track readiness at each stage.'),
+      c('Планирую локализацию на русский, английский и китайский: приоритеты материалов, трудоёмкость и ресурсы.', 'Plan Russian, English and Chinese localisation, including asset priorities, effort and resources.'),
+      c('Связываю параллельные работы в общий план, чтобы изменения в одном потоке учитывались в других.', 'Connect parallel work in a shared plan so changes in one stream are reflected in the others.'),
     ],
-    result: { ru: 'Предложения, переговоры и тестовые работы собраны в основу для обоснованного выбора.', en: 'Proposals, negotiations, and test-project results formed a basis for an informed choice.' },
+    result: c('Около 10 моделей в подготовке к зарубежным рынкам. Требования, зависимости и готовность материалов собраны в общую систему контроля при подготовке запуска.', 'Around 10 models are being prepared for international markets. Requirements, dependencies and asset readiness are brought into a shared tracking system during launch preparation.'),
+    tags: ['Process mapping', 'Localisation', 'Resource planning'],
   },
-]
+] as const

@@ -2,7 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
-import { LanguageProvider } from './hooks/use-language.tsx'
+import { LanguageProvider } from './hooks/language-provider.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
