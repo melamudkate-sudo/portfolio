@@ -1,6 +1,6 @@
-import { motion, useScroll } from 'framer-motion'
+import { AnimatePresence, motion, useReducedMotion, useScroll } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
-import { ArrowUpRight, Menu, X } from 'lucide-react'
+import { ArrowUpRight } from 'lucide-react'
 import { LanguageToggle } from '@/components/language-toggle'
 import { useLanguage } from '@/hooks/use-language'
 
@@ -15,6 +15,7 @@ const LINKS = [
 export function Navbar() {
   const { language } = useLanguage()
   const { scrollYProgress } = useScroll()
+  const reduced = useReducedMotion()
   const [open, setOpen] = useState(false)
   const menuButton = useRef<HTMLButtonElement>(null)
   const menu = useRef<HTMLElement>(null)
@@ -37,7 +38,7 @@ export function Navbar() {
     return () => { document.body.style.overflow = previous; document.removeEventListener('keydown', onKey) }
   }, [open])
   return <>
-    <header className="site-header"><motion.div className="reading-progress" style={{ scaleX: scrollYProgress }} aria-hidden="true" /><div className="hr-container nav-layout"><a href="#top" className="nav-brand" onClick={() => setOpen(false)}><span className="brand-mark" aria-hidden="true">м<span>.</span></span><span>{ru ? 'Екатерина Меламуд' : 'Ekaterina Melamud'}</span></a><nav className="desktop-nav" aria-label={ru ? 'Основная навигация' : 'Main navigation'}>{LINKS.map(link => <a key={link.href} href={link.href}>{link[language]}</a>)}</nav><div className="nav-actions"><LanguageToggle /><a className="nav-contact" href="#contact">{ru ? 'Контакты' : 'Contacts'}<ArrowUpRight size={16} aria-hidden="true" /></a><button ref={menuButton} className="menu-toggle" type="button" aria-controls="mobile-navigation" aria-expanded={open} aria-label={ru ? (open ? 'Закрыть меню' : 'Открыть меню') : (open ? 'Close menu' : 'Open menu')} onClick={() => setOpen(!open)}>{open ? <X size={22} /> : <Menu size={22} />}</button></div></div></header>
-    {open && <nav ref={menu} id="mobile-navigation" className="mobile-navigation" aria-label={ru ? 'Навигация' : 'Navigation'}>{[LINKS[0], { href: '#education', ru: 'Образование', en: 'Education' }, ...LINKS.slice(1), { href: '#growth', ru: 'Куда хочу расти', en: 'Career interests' }, { href: '#contact', ru: 'Контакты', en: 'Contacts' }].map((link) => <a href={link.href} key={link.href} onClick={() => setOpen(false)}>{link[language]}<ArrowUpRight size={24} /></a>)}</nav>}
+    <header className="site-header"><motion.div className="reading-progress" style={{ scaleX: scrollYProgress }} aria-hidden="true" /><div className="hr-container nav-layout"><a href="#top" className="nav-brand" onClick={() => setOpen(false)}><span className="brand-mark" aria-hidden="true">м<span>.</span></span><span>{ru ? 'Екатерина Меламуд' : 'Ekaterina Melamud'}</span></a><nav className="desktop-nav" aria-label={ru ? 'Основная навигация' : 'Main navigation'}>{LINKS.map(link => <a key={link.href} href={link.href}>{link[language]}</a>)}</nav><div className="nav-actions"><LanguageToggle /><a className="nav-contact" href="#contact">{ru ? 'Контакты' : 'Contacts'}<ArrowUpRight size={16} aria-hidden="true" /></a><button ref={menuButton} className="menu-toggle" type="button" aria-controls="mobile-navigation" aria-expanded={open} aria-label={ru ? (open ? 'Закрыть меню' : 'Открыть меню') : (open ? 'Close menu' : 'Open menu')} onClick={() => setOpen(!open)}><span className="menu-glyph" aria-hidden="true"><i /><i /><i /></span></button></div></div></header>
+    <AnimatePresence>{open && <motion.nav initial={{ opacity: 0, y: reduced ? 0 : -18 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: reduced ? 0 : -12 }} transition={{ duration: reduced ? 0 : .25 }} ref={menu} id="mobile-navigation" className="mobile-navigation" aria-label={ru ? 'Навигация' : 'Navigation'}>{[LINKS[0], { href: '#education', ru: 'Образование', en: 'Education' }, ...LINKS.slice(1), { href: '#growth', ru: 'Куда хочу расти', en: 'Career interests' }, { href: '#contact', ru: 'Контакты', en: 'Contacts' }].map((link, index) => <motion.a initial={{ opacity: 0, x: reduced ? 0 : -16 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: reduced ? 0 : .3, delay: reduced ? 0 : index * .035 }} href={link.href} key={link.href} onClick={() => setOpen(false)}>{link[language]}<ArrowUpRight size={24} /></motion.a>)}</motion.nav>}</AnimatePresence>
   </>
 }

@@ -73,3 +73,11 @@
   .erp-statuses i { width: 10px; height: 10px; border-radius: 2px; }
   .erp-status-0 { background: #85ad97; }.erp-status-1 { background: #a9bcdf; }.erp-status-2 { background: #536ed4; }.erp-status-3 { border: 1px dashed #8299bf; }
 }
+
+/* Keep diagram contents inside their own nodes, including long English labels. */
+.system-architecture { grid-template-columns: repeat(2,minmax(0,1fr)); }
+.system-architecture li > div { min-width: 0; overflow-wrap: anywhere; }
+.system-cadence > div { min-width: 0; }.system-cadence strong { display: block; overflow-wrap: anywhere; }
+.visual-heading h4 { min-width: 0; overflow-wrap: anywhere; }
+.tender-matrix li svg { flex-shrink: 0; }.erp-calendar > div { min-width: 0; }
+@media (max-width:560px) { .system-architecture { grid-template-columns: minmax(0,1fr); } }
