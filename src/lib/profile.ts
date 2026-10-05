@@ -5,6 +5,6 @@ export const CONTACTS = {
   phone: '+7 985 248-99-39',
 }
 
-// Set to a public PDF URL or /resume.pdf when the approved file is available.
+// Add public/resume.pdf and rebuild; the download link is enabled automatically.
 declare const __HAS_RESUME__: boolean
-export const RESUME_URL: string | undefined = import.meta.env.VITE_RESUME_URL || (__HAS_RESUME__ ? `${import.meta.env.BASE_URL}resume.pdf` : undefined)
+export const RESUME_URL: string | undefined = __HAS_RESUME__ ? `${import.meta.env.BASE_URL}resume.pdf` : undefined

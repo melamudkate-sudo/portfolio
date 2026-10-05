@@ -2,20 +2,34 @@ import { ArrowUpRight, BriefcaseBusiness, FolderTree, Globe2, Plus, Workflow, Ca
 import { SwipeRail } from '@/components/ui/swipe-rail'
 import { Reveal } from '@/components/motion/reveal'
 import { useLanguage } from '@/hooks/use-language'
+import { useGoalView } from '@/hooks/use-goal-view'
+import { trackGoal, type Goal } from '@/lib/metrika'
 import { CASES, MORE_PROJECTS } from './cases/data'
 import { ProjectSystemVisual, VideoEconomicsVisual, TenderVisual, ERPCalendarVisual } from './cases/evidence'
 import './cases/cases.css'
 
 const CASE_ICONS = [Workflow, ChartNoAxesCombined, BriefcaseBusiness, CalendarDays]
 const VISUALS = [ProjectSystemVisual, VideoEconomicsVisual, TenderVisual, ERPCalendarVisual]
+const CASE_GOALS: Record<(typeof CASES)[number]['id'], Goal> = {
+  scrum: 'project_video_system',
+  video: 'project_production',
+  tender: 'project_tender',
+  erp: 'project_erp_calendar',
+}
+
+function trackProjectOpen(id: (typeof CASES)[number]['id']) {
+  trackGoal(CASE_GOALS[id])
+}
+
 const MORE_ICONS = [WandSparkles, Gauge, Languages, Globe2, FolderTree]
 
 export function Cases() {
   const { language } = useLanguage()
   const ru = language === 'ru'
+  const heading = useGoalView('projects_view')
   return <section id="work" className="hr-section hr-work" aria-labelledby="cases-title"><div className="hr-container">
-    <Reveal className="work-header"><div><h2 className="section-title" id="cases-title">{ru ? 'Избранные проекты' : 'Selected projects'}</h2></div><div className="work-intro"><p>{ru ? 'Управление командой, экономика производства, работа с подрядчиками и корпоративный IT — четыре проекта с разными задачами и моей ролью в каждом.' : 'Team operations, production economics, vendor selection and enterprise IT: four different projects and my role in each.'}</p><p className="work-visual-note">{ru ? 'Схемы и интерфейсы восстановлены для портфолио на обезличенных данных.' : 'Diagrams and interfaces are reconstructed for this portfolio using anonymised data.'}</p></div></Reveal>
-    <nav aria-label={ru ? 'Перейти к проекту' : 'Go to a project'}><SwipeRail className="case-index" label={ru ? 'Проекты' : 'Projects'}>{CASES.map((item, i) => { const Icon = CASE_ICONS[i]; return <a href={`#case-${item.id}`} key={item.id}><span className="case-nav-icon"><Icon size={21} aria-hidden="true" /></span><span>{item.nav[language]}</span><ArrowUpRight size={18} aria-hidden="true" /></a> })}</SwipeRail></nav>
+    <Reveal className="work-header"><div><h2 ref={heading} className="section-title" id="cases-title">{ru ? 'Избранные проекты' : 'Selected projects'}</h2></div><div className="work-intro"><p>{ru ? 'Управление командой, экономика производства, работа с подрядчиками и корпоративный IT — четыре проекта с разными задачами и моей ролью в каждом.' : 'Team operations, production economics, vendor selection and enterprise IT: four different projects and my role in each.'}</p><p className="work-visual-note">{ru ? 'Схемы и интерфейсы восстановлены для портфолио на обезличенных данных.' : 'Diagrams and interfaces are reconstructed for this portfolio using anonymised data.'}</p></div></Reveal>
+    <nav aria-label={ru ? 'Перейти к проекту' : 'Go to a project'}><SwipeRail className="case-index" label={ru ? 'Проекты' : 'Projects'}>{CASES.map((item, i) => { const Icon = CASE_ICONS[i]; return <a href={`#case-${item.id}`} key={item.id} onClick={() => trackProjectOpen(item.id)}><span className="case-nav-icon"><Icon size={21} aria-hidden="true" /></span><span>{item.nav[language]}</span><ArrowUpRight size={18} aria-hidden="true" /></a> })}</SwipeRail></nav>
     <div className="flagship-list">{CASES.map((item, i) => {
       const Visual = VISUALS[i]
       return <Reveal depth key={item.id}><article id={`case-${item.id}`} className={`flagship flagship-${item.id}`} aria-labelledby={`case-title-${item.id}`}>
