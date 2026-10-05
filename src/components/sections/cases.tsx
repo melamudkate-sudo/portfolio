@@ -1,10 +1,18 @@
 import { useState, useEffect } from 'react'
 import type { ReactNode } from 'react'
-import { ArrowDown, ArrowUpRight, BriefcaseBusiness, FolderTree, Globe2, Plus } from 'lucide-react'
+import { ArrowDown, ArrowUpRight, BriefcaseBusiness, FolderTree, Globe2, Plus, Workflow, CalendarDays, PanelsTopLeft, Route, MousePointer2 } from 'lucide-react'
+import { SwipeRail } from '@/components/ui/swipe-rail'
 import { Reveal } from '@/components/motion/reveal'
 import { useLanguage } from '@/hooks/use-language'
 import { CASES, CASE_PRESENTATION, DELIVERABLE_LABELS } from './cases/data'
 import { AutomationEvidence, LaunchEvidence, ProductionEvidence, ScrumEvidence } from './cases/evidence'
+
+const CASE_NAV = [
+  { icon: Workflow, ru: 'Проектная работа', en: 'Project delivery' },
+  { icon: CalendarDays, ru: 'Планирование', en: 'Production planning' },
+  { icon: PanelsTopLeft, ru: 'Автоматизация', en: 'Automation' },
+  { icon: Route, ru: 'Запуск продуктов', en: 'Product launches' },
+]
 
 const EVIDENCE = [ScrumEvidence, ProductionEvidence, AutomationEvidence, LaunchEvidence]
 
@@ -19,8 +27,8 @@ function WorkVisual({ children, index, ru }: { children: ReactNode; index: numbe
     return () => query.removeEventListener('change', update)
   }, [])
   return <div className={`case-visual ${open ? 'visual-open' : ''}`}>
-    <button type="button" className="visual-toggle" aria-expanded={!mobile || open} aria-controls={`work-visual-${index}`} onClick={() => setOpen(!open)}><span>{ru ? 'Схема и интерфейс' : 'Workflow & interface'}</span><Plus size={18} aria-hidden="true" /></button>
-    <div id={`work-visual-${index}`} className="visual-content"><div className="visual-label"><span>{ru ? 'Как устроена работа' : 'How the work is organised'}</span><span>0{index + 1} / 04</span></div>{children}</div>
+    <button type="button" className="visual-toggle" aria-expanded={!mobile || open} aria-controls={`work-visual-${index}`} onClick={() => setOpen(!open)}><span>{ru ? 'Посмотреть, как это работает' : 'Explore the workflow'}</span><Plus size={18} aria-hidden="true" /></button>
+    <div id={`work-visual-${index}`} className="visual-content">{index !== 1 && <div className="visual-label"><MousePointer2 size={17} aria-hidden="true" /><span>{ru ? (index === 3 ? 'Нажмите на этап — посмотрите его задачи' : 'Переключайте вкладки, чтобы изучить процесс') : (index === 3 ? 'Select a stage to explore its tasks' : 'Switch tabs to explore the workflow')}</span></div>}{children}</div>
   </div>
 }
 
@@ -34,12 +42,12 @@ export function Cases() {
   const ru = language === 'ru'
   return <section id="work" className="hr-section hr-work" aria-labelledby="cases-title"><div className="hr-container">
     <Reveal className="work-header"><div><p className="hr-eyebrow">02 / {ru ? 'Опыт в действии' : 'Experience in action'}</p><h2 id="cases-title">{ru ? 'Избранные проекты' : 'Selected projects'}</h2></div><div className="work-intro"><p>{ru ? 'Избранные проекты в DEMIAND: что я организовала, спроектировала и довела до работающего решения.' : 'Selected projects at DEMIAND: what I organised, designed and turned into working solutions.'}</p><span>{ru ? 'До 6 крупных проектов параллельно' : 'Up to 6 major projects in parallel'}<ArrowDown size={17} aria-hidden="true" /></span></div></Reveal>
-    <nav className="case-index" aria-label={ru ? 'Избранные проекты' : 'Selected projects'}>{CASES.map((item, i) => <a href={`#case-${item.id}`} key={item.id}><small>0{i + 1}</small>{item.category.split(' / ')[0]}<ArrowUpRight size={15} aria-hidden="true" /></a>)}</nav>
+    <nav aria-label={ru ? 'Перейти к проекту' : 'Go to a project'}><SwipeRail className="case-index" label={ru ? 'Проекты' : 'Projects'}>{CASES.map((item, i) => { const Icon = CASE_NAV[i].icon; return <a href={`#case-${item.id}`} key={item.id}><span className="case-nav-icon"><Icon size={21} aria-hidden="true" /></span><span>{CASE_NAV[i][language]}</span><ArrowUpRight size={18} aria-hidden="true" /></a> })}</SwipeRail></nav>
     <div className="case-list">{CASES.map((item, i) => {
       const Evidence = EVIDENCE[i]
       const presentation = CASE_PRESENTATION[i]
       return <Reveal key={item.id}><article id={`case-${item.id}`} className="project-case" aria-labelledby={`case-title-${item.id}`}>
-        <div className="case-meta"><span className="case-number">0{i + 1}</span><p>{item.category}</p><span className="case-company">DEMIAND</span></div>
+        <div className="case-meta"><span className="case-number">0{i + 1}</span><p>{item.category}</p></div>
         <div className="case-overview"><div className="case-editorial"><h3 id={`case-title-${item.id}`}>{item.title[language]}</h3><p className="case-lead">{presentation.intro[language]}</p><div className="case-outcome"><span className="copy-label">{ru ? 'Результат и масштаб' : 'Outcome & scope'}</span><Outcome text={presentation.outcome[language]} /></div><div className="case-metrics">{presentation.metrics.map(metric => <div key={metric.value}><strong>{metric.value}</strong><span>{metric.label[language]}</span></div>)}</div></div>
         <WorkVisual index={i} ru={ru}><figure className="hr-evidence"><Evidence language={language} /><figcaption className="sr-only">{ru ? 'Реконструкция для портфолио · обезличенные тестовые данные' : 'Portfolio reconstruction · anonymised test data'}</figcaption></figure></WorkVisual></div>
         <details className="case-details"><summary><span>{ru ? 'Подробнее о моей роли' : 'More about my role'}</span><Plus size={20} aria-hidden="true" /></summary><div className="case-details-body"><div className="case-context"><span className="copy-label">{ru ? 'Задача' : 'Challenge'}</span><p>{item.context[language]}</p><span className="copy-label">{ru ? 'Моя роль' : 'My role'}</span><p>{item.role[language]}</p></div><ol className="case-deliverables">{item.changes.map((change, index) => <li key={change.en}><span>0{index + 1}</span><div><h4>{DELIVERABLE_LABELS[i][index][language]}</h4><p>{change[language]}</p></div></li>)}</ol><div className="case-full-result"><span className="copy-label">{ru ? 'Результат и масштаб' : 'Outcome & scope'}</span><p>{item.result[language]}</p></div></div></details>

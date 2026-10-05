@@ -4,7 +4,7 @@ const c = (ru: string, en: string): Copy => ({ ru, en })
 export const CASES = [
   {
     id: 'scrum', category: 'Operations / Scrum',
-    title: c('Перестройка проектной работы отдела креаторов', 'Rebuilding project delivery in the Creators Department'),
+    title: c('Проектная работа отдела дизайна и контента', 'Project delivery for design and content'),
     context: c('Десятки задач по новым продуктам, упаковке, инструкциям, контенту, видео и локализации идут одновременно. В работе участвуют дизайнеры, редакторы, продакт и подрядчики.', 'Dozens of tasks for new products, packaging, manuals, content, video and localisation run in parallel, involving designers, editors, a product manager and contractors.'),
     role: c('Участвовала в перестройке проектной системы отдела: собирала более управляемый способ работы команды и переносила его в Bitrix24 Scrum Pro.', 'Helped rebuild the department’s project system: designing a more manageable way of working and moving it into Bitrix24 Scrum Pro.'),
     changes: [
@@ -74,12 +74,12 @@ export const CASE_PRESENTATION = [
   },
   {
     intro: c('Связала несколько производственных потоков в общий план: участники, сроки, зависимости и готовность материалов.', 'Connected multiple production streams in one plan: contributors, deadlines, dependencies and asset readiness.'),
-    outcome: c('От арт-работ и инструкций до фото, видео и маркетплейсов. Вместе с аналитиками и IT проектирую операционную логику внутренней системы.', 'From artwork and manuals to photo, video and marketplaces. I work with analysts and IT on the operating logic of an internal system.'),
+    outcome: c('План показывает готовность материалов и зависимости между потоками. Вместе с аналитиками и IT спроектировала логику и прототип: часть решений вошла в план реализации.', 'The plan connects asset readiness and dependencies across streams. With analysts and IT, I designed workflow logic and a prototype; some solutions entered the implementation plan.'),
     metrics: [{ value: '30', label: c('дней планирования', 'day planning horizon') }, { value: '10 / 5', label: c('рецептов / публикаций в неделю', 'recipes / posts per week') }],
   },
   {
     intro: c('Сама собираю инструменты под процесс: расчёты, заявки, согласования, реестры и автоматические уведомления.', 'I build tools around the workflow: calculations, requests, approvals, registers and automatic notifications.'),
-    outcome: c('Dashboard отпусков, сводки дедлайнов и реестр контента. Для 20+ товарных позиций автоматизировала индикацию пробелов и приоритеты.', 'A leave dashboard, deadline summaries and a content register. Automated gap indicators and priorities for 20+ product items.'),
+    outcome: c('Автоматизировала расчёты отпусков и сводки дедлайнов. Реестр для 20+ товарных позиций показывает пробелы в контенте и приоритеты — меньше ручных сверок.', 'Automated leave calculations and deadline summaries. A register for 20+ product items flags content gaps and priorities, reducing manual checks.'),
     metrics: [{ value: '20+', label: c('позиций в реестре контента', 'items in the content register') }, { value: 'Apps Script', label: c('от идеи до рабочего инструмента', 'from idea to a working tool') }],
   },
   {
