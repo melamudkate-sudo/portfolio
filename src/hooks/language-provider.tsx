@@ -11,7 +11,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const animations = useRef<Animation[]>([])
   useEffect(() => {
     document.documentElement.lang = language
-    document.title = language === 'ru' ? 'Екатерина Меламуд — Project & Operations' : 'Ekaterina Melamud — Project & Operations'
+    document.title = language === 'ru' ? 'Екатерина Меламуд — Project & Operations Manager' : 'Ekaterina Melamud — Project & Operations Manager'
   }, [language])
   useEffect(() => () => { switchSequence.current++; animations.current.forEach(animation => animation.cancel()) }, [])
 
