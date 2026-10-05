@@ -11,7 +11,29 @@
         k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
       })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=113423608', 'ym');
 
-      ym(113423608, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+      (function () {
+        // Capture the entry URL before the app or analytics can change history.
+        const entryUrl = location.href;
+        const hasUtm = [...new URL(entryUrl).searchParams.keys()].some(key => /^utm_/i.test(key));
+
+        // Tagged entries get one explicit first hit; ordinary entries stay automatic.
+        ym(113423608, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: entryUrl, accurateTrackBounce:true, trackLinks:true, defer:hasUtm});
+        if (!hasUtm) return;
+
+        ym(113423608, 'hit', entryUrl, {
+          referer: document.referrer,
+          callback: function () {
+            // Metrika calls this only after sending this page view, not just init.
+            try {
+              const url = new URL(location.href);
+              const keys = [...url.searchParams.keys()].filter(key => /^utm_/i.test(key));
+              if (!keys.length) return;
+              keys.forEach(key => url.searchParams.delete(key));
+              history.replaceState(history.state, '', url.pathname + url.search + url.hash);
+            } catch { /* URL cleanup must never break the site. */ }
+          }
+        });
+      })();
     </script>
     <!-- /Yandex.Metrika counter -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2" />
