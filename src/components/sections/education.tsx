@@ -21,25 +21,24 @@ export function Education() {
   const ru = language === 'ru'
   const reduced = useReducedMotion()
   const reveal = {
-    initial: reduced ? false as const : { opacity: 0, y: 8 },
-    whileInView: { opacity: 1, y: 0 },
+    initial: reduced ? false as const : { opacity: 0, y: 52, scale: .985 },
+    whileInView: { opacity: 1, y: 0, scale: 1 },
     viewport: { once: true, amount: 0.12 },
-    transition: { duration: reduced ? 0 : 0.35 },
+    transition: { duration: reduced ? 0 : 0.8 },
   }
 
   return (
-    <section id="education" className="education-section" aria-labelledby="education-title">
+    <section id="education" className="hr-section education-section" aria-labelledby="education-title">
       <div className={SECTION_CONTAINER_CLASS}>
         <motion.header className="education-heading" {...reveal}>
-          <p className="education-eyebrow">{ru ? 'ОБРАЗОВАНИЕ И ПРОФЕССИОНАЛЬНОЕ РАЗВИТИЕ' : 'EDUCATION AND PROFESSIONAL DEVELOPMENT'}</p>
-          <h2 id="education-title">{ru ? 'Образование' : 'Education'}</h2>
+          <h2 className="section-title" id="education-title">{ru ? 'Образование' : 'Education'}</h2>
         </motion.header>
 
         <motion.div className="education-study" {...reveal}>
           <article className="education-primary" aria-labelledby="education-primary-title">
             <div className="education-module-label">
               <span className="education-icon" aria-hidden="true"><GraduationCap size={25} strokeWidth={1.4} /></span>
-              <p className="education-eyebrow">01 / {ru ? 'ОСНОВНОЕ ОБРАЗОВАНИЕ' : 'MAIN PROGRAMME'}</p>
+              <p className="education-eyebrow">{ru ? 'ОСНОВНОЕ ОБРАЗОВАНИЕ' : 'MAIN PROGRAMME'}</p>
             </div>
             <div className="education-institution">
               <p>{ru ? 'РАНХиГС' : 'RANEPA'}</p>
@@ -52,7 +51,7 @@ export function Education() {
           <article className="education-minor" aria-labelledby="education-minor-title">
             <div className="education-module-label">
               <CircuitBoard size={23} strokeWidth={1.4} aria-hidden="true" />
-              <p className="education-eyebrow">02 / {ru ? 'МАЙНОР' : 'MINOR'}</p>
+              <p className="education-eyebrow">{ru ? 'МАЙНОР' : 'MINOR'}</p>
               <StudyStatus />
             </div>
             <h3 id="education-minor-title">{ru
@@ -67,7 +66,7 @@ export function Education() {
         <motion.article className="education-community" aria-labelledby="education-community-title" {...reveal}>
           <UsersRound size={23} strokeWidth={1.4} aria-hidden="true" />
           <div className="education-community-heading">
-            <p className="education-eyebrow">03 / {ru ? 'ПРОФЕССИОНАЛЬНАЯ АКТИВНОСТЬ' : 'PROFESSIONAL ENGAGEMENT'}</p>
+            <p className="education-eyebrow">{ru ? 'ПРОФЕССИОНАЛЬНАЯ АКТИВНОСТЬ' : 'PROFESSIONAL ENGAGEMENT'}</p>
             <h3 id="education-community-title">{ru ? 'Профильные мероприятия и нетворкинг' : 'Industry events and networking'}</h3>
           </div>
           <p className="education-community-copy">{ru

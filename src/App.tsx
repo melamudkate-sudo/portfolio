@@ -39,7 +39,7 @@ function App() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Navbar />
-      <main className="relative z-10 overflow-x-clip">
+      <main className="language-surface relative z-10 overflow-x-clip">
         <Hero />
         <About />
         <Education />

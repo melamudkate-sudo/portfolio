@@ -21,7 +21,6 @@
 .flagship-erp .flagship-metrics { grid-template-columns: .8fr .6fr 1.4fr; }
 .flagship-note { font-size: 13px; color: #415782; margin-top: 18px; padding-left: 12px; border-left: 2px solid #8399ca; line-height: 1.55; }
 .flagship-visual { min-width: 0; margin: 0; background: #f7f9fd; border: 1px solid #dce4f2; border-radius: 12px; overflow: hidden; }
-.flagship-visual figcaption { font-size: 11px; line-height: 1.5; color: #63718b; padding: 10px 20px; border-top: 1px solid #e0e7f2; background: #fff; }
 .flagship-details { margin-top: 24px; border-top: 1px solid #dfe6f1; }
 .flagship-details summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 58px; color: #3f56ba; font-size: 16px; font-weight: 500; cursor: pointer; list-style: none; }
 .flagship-details summary::-webkit-details-marker { display: none; }
