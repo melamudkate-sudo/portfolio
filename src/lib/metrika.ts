@@ -14,10 +14,33 @@ export type Goal =
   | 'projects_view'
   | 'contacts_view'
 
-type Metrika = (counter: number, method: 'reachGoal', goal: Goal, params?: Record<string, unknown>, callback?: () => void) => void
+type Metrika = {
+  (counter: number, method: 'reachGoal', goal: Goal, params?: Record<string, unknown>, callback?: () => void): void
+  (counter: number, method: 'getClientID', callback: (clientID: string) => void): void
+}
 
 declare global {
   interface Window { ym?: Metrika }
+}
+
+export function cleanUtmAfterMetrikaReady() {
+  const hasUtm = [...new URL(window.location.href).searchParams.keys()].some(key => /^utm_/i.test(key))
+  if (!hasUtm || typeof window.ym !== 'function') return
+
+  try {
+    // index.html queues init first, capturing the original URL with UTM.
+    // This callback runs when that same counter is ready; it adds no page view.
+    window.ym(113423608, 'getClientID', () => {
+      try {
+        // Read the current URL so anchors and unrelated parameters stay intact.
+        const url = new URL(window.location.href)
+        const keys = [...url.searchParams.keys()].filter(key => /^utm_/i.test(key))
+        if (!keys.length) return
+        keys.forEach(key => url.searchParams.delete(key))
+        window.history.replaceState(window.history.state, '', `${url.pathname}${url.search}${url.hash}`)
+      } catch { /* URL cleanup must never break the site. */ }
+    })
+  } catch { /* Keep UTM in place if the counter is unavailable. */ }
 }
 
 export function trackGoal(goal: Goal, callback?: () => void): boolean {
